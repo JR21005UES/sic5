@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('naturaleza', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nombre');            
+            $table->boolean('es_cuenta_r');
+            $table->boolean('deudor_acreedor');
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('natu');
+        Schema::dropIfExists('naturaleza'); 
     }
 };

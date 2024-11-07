@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('catalogo', function (Blueprint $table) {
-            $table->id();
+            $table->integer('codigo')->primary();
             $table->timestamps();
             $table->string('nombre');
             $table->string('descripcion');
-            $table->string('codigo');
             $table->unsignedBigInteger('naturaleza_id');
-
+            
             // Definir la clave foránea
             $table->foreign('naturaleza_id')->references('id')->on('naturaleza')->onDelete('no action');
-
         });
     }
 
