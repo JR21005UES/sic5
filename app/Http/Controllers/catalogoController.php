@@ -103,7 +103,7 @@ class CatalogoController extends Controller
 
         if ($validator -> fails()) {
             $data = [
-                'message' => 'Error en la validación de los datos',
+                'message' => 'Error en la validación dasase los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
