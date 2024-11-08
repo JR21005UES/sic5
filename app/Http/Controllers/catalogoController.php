@@ -63,10 +63,10 @@ class CatalogoController extends Controller
     }
 
     // Método show para obtener un registro por su id
-    public function show($id)
+    public function show($codigo)
     {
         // Buscar un registro por su id
-        $catalogo = Catalogo::find($id);
+        $catalogo = Catalogo::find($codigo);
 
         if (!$catalogo) {
             $data = [
@@ -80,11 +80,11 @@ class CatalogoController extends Controller
     }
 
     // Método update para actualizar un registro por su id
-    public function update(Request $request, $id)
+    public function update(Request $request, $codigo)
     {
-        // Buscar un registro por su id
-        $catalogo = Catalogo::find($id);
-
+        // Buscar un registro por su codigo
+        $catalogo = Catalogo::find($codigo);
+    
         if (!$catalogo) {
             $data = [
                 'message' => 'Registro no encontrado',
@@ -92,30 +92,26 @@ class CatalogoController extends Controller
             ];
             return response()->json($data, $data['status']);
         }
-
+    
         // Validar la solicitud
-        $validator = Validator::make($request->all(),[
-            'nombre' => 'required|string|max:255|unique:catalogo,nombre,'.$id,
-            'descripcion' => 'required|string',
-            'codigo' => 'required|numeric|unique:catalogo,codigo,'.$id,
-            'naturaleza_id' => 'required|exists:naturaleza,id'
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255'
         ]);
-
-        if ($validator -> fails()) {
+    
+        if ($validator->fails()) {
             $data = [
-                'message' => 'Error en la validación dasase los datos',
+                'message' => 'Error en la validación de los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
             return response()->json($data, $data['status']);
         }
-
+        
         // Actualizar el registro en la tabla catalogo
         $catalogo->nombre = $request['nombre'];
         $catalogo->descripcion = $request['descripcion'];
-        $catalogo->codigo = $request['codigo'];
-        $catalogo->naturaleza_id = $request['naturaleza_id'];
-
+    
         if (!$catalogo->save()) {
             $data = [
                 'message' => 'Error al actualizar el registro',
@@ -123,20 +119,20 @@ class CatalogoController extends Controller
             ];
             return response()->json($data, $data['status']);
         }
-
+    
         $data = [
             'catalogo' => $catalogo,
             'status' => 200
         ];
-
+    
         return response()->json($data, $data['status']);
     }
 
     // Método destroy para eliminar un registro por su id
-    public function destroy($id)
+    public function destroy($codigo)
     {
         // Buscar un registro por su id
-        $catalogo = Catalogo::find($id);
+        $catalogo = Catalogo::find($codigo);
 
         if (!$catalogo) {
             $data = [

@@ -17,4 +17,13 @@ class Catalogo extends Model
         'codigo',
         'naturaleza_id'
     ];
+
+    // Definir la clave primaria
+    protected $primaryKey = 'codigo';
+
+    // Si la clave primaria no es un entero autoincremental, también debes definir esto
+    public $incrementing = false;
+
+    // Definir el tipo de clave primaria si no es un entero
+    protected $keyType = 'int';
 }
