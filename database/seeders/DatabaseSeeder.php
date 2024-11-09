@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(NaturalezaSeeder::class);
         $this->call(CatalogoSeeder::class);
+        $this->call(PartidaSeeder::class);
+        $this->call(DatoSeeder::class);
     }
 }

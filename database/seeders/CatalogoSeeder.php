@@ -8,8 +8,26 @@ use Illuminate\Support\Facades\DB;
 
 class CatalogoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
+    /*
+        //Consulta SQL para obtener las cuentas cuyo código comienza con un numero especifico
+        SELECT 
+        c.codigo,
+        c.nombre,
+        c.descripcion,
+        CASE 
+            WHEN n.es_cuenta_r = 1 THEN 'Sí'
+            ELSE 'No'
+        END AS Cuenta_R,
+            CASE 
+            WHEN n.deudor_acreedor = 1 THEN 'Acreedor'
+            ELSE 'Deudor'
+        END AS Naturaleza
+        FROM 
+            catalogo c
+        JOIN 
+            naturaleza n ON c.naturaleza_id = n.id
+        WHERE 
+            c.codigo LIKE '2%'; -- Filtra solo las cuentas cuyo código comienza con '?'
      */
     public function run(): void
     {
