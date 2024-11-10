@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\partidaController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -27,4 +28,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('catalogo/{codigo}', [CatalogoController::class, 'update']);
     //Eliminar un registro 
     Route::delete('/catalogo/{codigo}', [CatalogoController::class, 'destroy']);
+
+    
 });
+//partidas
+    //mostrar todos los registros 
+    Route::get('/partida',[partidaController::class,'index']);
+    Route::post('/partida',[partidaController::class,'store']);
