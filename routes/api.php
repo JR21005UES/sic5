@@ -35,3 +35,6 @@ Route::middleware('auth:sanctum')->group(function(){
     //mostrar todos los registros 
     Route::get('/partida',[partidaController::class,'index']);
     Route::post('/partida',[partidaController::class,'store']);
+    Route::put('/partida/{id}',[partidaController::class,'update']);
+    Route::delete('/partida/{id}',[partidaController::class,'destroy']);
+    Route::get('/partida/{id}',[partidaController::class,'show']);
