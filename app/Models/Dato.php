@@ -10,11 +10,9 @@ class Dato extends Model
     use HasFactory;
     protected $table='dato';
     protected $fillable =[
-        'id_calago',
-        'id_partida'
+        'id_catalogo',
+        'id_partida',
         'debe',
-        'haber',
-
-
-    ]
+        'haber'
+    ];
 }

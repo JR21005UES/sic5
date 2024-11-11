@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogoController;
+
+use App\Http\Controllers\datoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\partidaController;
 
@@ -38,3 +40,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('/partida/{id}',[partidaController::class,'update']);
     Route::delete('/partida/{id}',[partidaController::class,'destroy']);
     Route::get('/partida/{id}',[partidaController::class,'show']);
+
+    //Dato
+    Route::get('/dato',[datoController::class,'index']);
+    Route::post('/dato',[datoController::class,'store']);

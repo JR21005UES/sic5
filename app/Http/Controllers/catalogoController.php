@@ -18,7 +18,7 @@ class CatalogoController extends Controller
         // Retornar los registros en formato JSON
         return response()->json($catalogos, 200);
     }
-
+    //referee
     // Método store para crear un nuevo registro
     public function store(Request $request)
     {
@@ -61,7 +61,7 @@ class CatalogoController extends Controller
 
         return response()->json($data, $data['status']);
     }
-
+//fin referecnai
     // Método show para obtener un registro por su id
     public function show($codigo)
     {
