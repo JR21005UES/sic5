@@ -10,13 +10,42 @@ use Illuminate\Support\Facades\Validator;
 class CatalogoController extends Controller
 {
     // Método index para obtener todos los registros
-    public function index()
-    {
-        // Obtener todos los registros de la tabla catalogo
-        $catalogos = Catalogo::all();
+    public function index(){
+        $cuentas = Catalogo::all();
+        
+        // Crea una colección vacía para acumular los resultados ordenados
+        $cuentasOrdenadas = collect();
 
-        // Retornar los registros en formato JSON
-        return response()->json($catalogos, 200);
+        // Encuentra todas las cuentas de un dígito para el nivel superior
+        $cuentasUnDigito = $cuentas->filter(function($catalogo) {
+            return strlen($catalogo->codigo) == 1;
+        });
+
+        foreach ($cuentasUnDigito as $cuentaNivel1) {
+            // Añade la cuenta de nivel 1 a la colección
+            $cuentasOrdenadas->push($cuentaNivel1);
+            
+            // Encuentra todas las subcuentas de dos dígitos que empiecen con el código de nivel 1
+            $cuentasDosDigitos = $cuentas->filter(function($catalogo) use ($cuentaNivel1) {
+                return strlen($catalogo->codigo) == 2 && strpos($catalogo->codigo, (string)$cuentaNivel1->codigo) === 0;
+            });
+
+            foreach ($cuentasDosDigitos as $cuentaNivel2) {
+                // Añade la cuenta de nivel 2 a la colección
+                $cuentasOrdenadas->push($cuentaNivel2);
+                
+                // Encuentra todas las subcuentas de tres dígitos que empiecen con el código de nivel 2
+                $cuentasTresDigitos = $cuentas->filter(function($catalogo) use ($cuentaNivel2) {
+                    return strlen($catalogo->codigo) > 2 && strpos($catalogo->codigo, (string)$cuentaNivel2->codigo) === 0;
+                });
+
+                // Añade las cuentas de tres dígitos a la colección en orden
+                foreach ($cuentasTresDigitos as $cuentaNivel3) {
+                    $cuentasOrdenadas->push($cuentaNivel3);
+                }
+            }
+        }
+        return response()->json($cuentasOrdenadas);
     }
     //referee
     // Método store para crear un nuevo registro
