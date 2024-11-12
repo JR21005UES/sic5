@@ -15,10 +15,7 @@ class datoController extends Controller {
         //retorna todos los registro en formato JSON
         return response()->json($dato,200);
     }
-    
 
-
-    ///referencia
     //metodo para crear un nuevo registro
     public function store(Request $request)
     {
@@ -52,5 +49,21 @@ class datoController extends Controller {
         ];
         return response()->json($data, $data['status']);
     }
-//finrefeerene
+
+    //metodo show para obtener registro por su id
+
+    public function show ($id)
+    {
+        $dato = Dato::find($id);
+
+        if (!$dato) {
+            $data = [
+                'message' => 'Registro no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, $data['status']);
+        }
+        return response()->json($dato, 200);
+    }
+    
 }

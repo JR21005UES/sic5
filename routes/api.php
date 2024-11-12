@@ -44,3 +44,4 @@ Route::middleware('auth:sanctum')->group(function(){
     //Dato
     Route::get('/dato',[datoController::class,'index']);
     Route::post('/dato',[datoController::class,'store']);
+    Route::get('/dato/{id}',[datoController::class,'show']);
