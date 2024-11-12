@@ -64,3 +64,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/libroMayor1',[reporteController::class,'libroMayor1']);
     //Obtener Libro Mayor de un modo generalizado
     Route::get('/libroMayor2',[reporteController::class,'libroMayor2']);
+    //Obtener Estado de resultados
+    Route::get('/estadoResult/{InvFin}',[reporteController::class,'estadoResult']);

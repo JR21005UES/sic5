@@ -161,5 +161,149 @@ class reporteController extends Controller
 
         return response()->json($resultado);
     }
+    public function estadoResult($InvFin){
+        $resultado = collect();
+        $aux1 = $this->mayorizarCuenta(5101)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'VENTAS',
+            'monto' => $aux1['total']
+        ]);
+        $aux2 = $this->mayorizarCuenta(45)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'REBAJAS Y DEVOLUCIONES SOBRE VENTAS',
+            'monto' => $aux2['total']
+        ]);
+        $aux3 = $aux1['total'] - $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'VENTAS NETAS',
+            'monto' => $aux3
+        ]);
+        $aux4 = $aux3; //Guardamos ventas netas para ocupar esta variable mas abajo
+        $aux1 = $this->mayorizarCuenta(44)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'COMPRAS',
+            'monto' => $aux1['total']
+        ]);
+        $aux2 = $this->mayorizarCuenta(46)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'GASTOS DE COMPRA',
+            'monto' => $aux2['total']
+        ]);
+        $aux3 = $aux1['total'] + $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'COMPRAS TOTALES',
+            'monto' => $aux3
+        ]);
+        $aux1 = $this->mayorizarCuenta(53)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'REBAJAS Y DEVOLUCIONES SOBRE COMPRAS',
+            'monto' => $aux1['total']
+        ]);
+        $aux2 = $aux3 - $aux1['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'COMPRAS NETAS',
+            'monto' => $aux2
+        ]);
+        $aux1 = $this->mayorizarCuenta(1109)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'INVENTARIOS',
+            'monto' => $aux1['total']
+        ]);
+        $aux3 = $aux1['total'] + $aux2;
+        $resultado->push([
+            'nombre_cuenta' => 'MERCADERIA DISPONIBLE',
+            'monto' => $aux3
+        ]);
+        $aux1 = floatval($InvFin);
+        $resultado->push([
+            'nombre_cuenta' => 'INVENTARIO FINAL',
+            'monto' => $aux1
+        ]);
+        $aux2 = $aux3 - $aux1;
+        $resultado->push([
+            'nombre_cuenta' => 'COSTO DE VENTA',
+            'monto' => $aux2
+        ]);
+        $aux1 = round($aux4 - $aux2, 2);
+        $resultado->push([
+            'nombre_cuenta' => 'UTILIDAD BRUTA',
+            'monto' => $aux1
+        ]);
+        $aux4 = $aux1; //Guardamos utilidad bruta para ocupar esta variable mas abajo
+        $aux1 = $this->mayorizarCuenta(4202)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'GASTOS DE VENTAS',
+            'monto' => $aux1['total']
+        ]);
+        $aux2 = $this->mayorizarCuenta(4201)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'GASTOS DE ADMINISTRACIÓN',
+            'monto' => $aux2['total']
+        ]);
+        $aux3 = $aux1['total'] + $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'GASTOS DE OPERACION',
+            'monto' => $aux3
+        ]);
+        $aux1 = $aux4 - $aux3;
+        $resultado->push([
+            'nombre_cuenta' => 'UTILIDAD DE OPERACION',
+            'monto' => $aux1
+        ]);
+        $aux2 = round($aux1*0.07, 2);
+        $resultado->push([
+            'nombre_cuenta' => 'RESERVA LEGAL',
+            'monto' => $aux2
+        ]);
+        $aux3 = round($aux1 - $aux2,2);
+        $resultado->push([
+            'nombre_cuenta' => 'UTILIDAD ANTES DE IMPUESTO',
+            'monto' => $aux3
+        ]);
+        $aux1 = round($aux3*0.25,2);
+        $resultado->push([
+            'nombre_cuenta' => 'IMPUESTO SOBRE LA RENTA',
+            'monto' => $aux1
+        ]);
+        $aux2 = round($aux3-$aux1, 2);
+        $resultado->push([
+            'nombre_cuenta' => 'UTILIDAD DEL EJERCICIO',
+            'monto' => $aux2
+        ]);
+
+        return response()->json($resultado);
+    }
+
+    public function mayorizarCuenta($id_catalogo)
+    {
+        $datos = Dato::with(['catalogo', 'partida'])
+            ->where('id_catalogo', $id_catalogo) // Filtra por el código de la cuenta específica
+            ->get();
+
+        $totalDebe = 0;
+        $totalHaber = 0;
+
+        foreach ($datos as $dato) {
+            // Suma los valores de debe y haber
+            $totalDebe += $dato->debe;
+            $totalHaber += $dato->haber;
+        }
+
+        // Calcula los totales deudor y acreedor según la naturaleza
+        $naturaleza = $datos->first()->catalogo->naturaleza_id ?? null;
+        $totalDeudor = ($naturaleza == 1) ? $totalDebe - $totalHaber : null;
+        $totalAcreedor = ($naturaleza == 3) ? $totalHaber - $totalDebe : null;
+
+        // Retorna solo el total deudor o acreedor según la naturaleza
+        if ($naturaleza == 1) {
+            return response()->json(['total' => $totalDeudor]);
+        } elseif ($naturaleza == 3) {
+            return response()->json(['total' => $totalAcreedor]);
+        } else {
+            return response()->json(['mensaje' => 'La cuenta no es de tipo deudor ni acreedor']);
+        }
+    }
+
+
 
 }
