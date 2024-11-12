@@ -7,6 +7,7 @@ use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\datoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\partidaController;
+use App\Http\Controllers\reporteController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -52,3 +53,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::delete('/dato/{id}',[datoController::class,'destroy']);
     //buscar registro por id
     Route::get('/dato/{id}',[datoController::class,'show']);
+
+    //reportes
+    Route::get('/balanzaComp',[reporteController::class,'balanzaComp']);
+    Route::get('/libroMayor1',[reporteController::class,'libroMayor1']);
+    Route::get('/libroMayor2',[reporteController::class,'libroMayor2']);

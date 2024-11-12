@@ -15,4 +15,13 @@ class Dato extends Model
         'debe',
         'haber'
     ];
+    public function catalogo()
+    {
+        return $this->belongsTo(Catalogo::class, 'id_catalogo', 'codigo');
+    }
+    //lo mismo pero para la partida
+    public function partida()
+    {
+        return $this->belongsTo(Partida::class, 'id_partida', 'id');
+    }
 }
