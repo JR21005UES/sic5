@@ -19,8 +19,9 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function(){
     //Cerrar sesión
-    Route::get('/logout', [AuthController::class, 'logout']);
-
+    Route::get('/logout', [AuthController::class, 'logout']);    
+});
+    //Catalogo
     //Mostrar todos los registros
     Route::get('/catalogo', [CatalogoController::class, 'index']); 
     //Crear un nuevo registro   
@@ -32,20 +33,22 @@ Route::middleware('auth:sanctum')->group(function(){
     //Eliminar un registro 
     Route::delete('/catalogo/{codigo}', [CatalogoController::class, 'destroy']);
 
-    
-});
-//partidas
+    //Partidas
     //mostrar todos los registros 
     Route::get('/partida',[partidaController::class,'index']);
+    //Crear un nuevo registro
     Route::post('/partida',[partidaController::class,'store']);
+    //Actualizar un registro por id
     Route::put('/partida/{id}',[partidaController::class,'update']);
+    //Eliminar un registro por id
     Route::delete('/partida/{id}',[partidaController::class,'destroy']);
+    //Buscar un registro por id
     Route::get('/partida/{id}',[partidaController::class,'show']);
 
-//Dato//
-    //index
+    //Dato
+    //mostrar todos los registros
     Route::get('/dato',[datoController::class,'index']);
-    //nuevo registro
+    //Crear un nuevo registro
     Route::post('/dato',[datoController::class,'store']);
     //actualizar registro por id
     Route::put('/dato/{id}',[datoController::class,'update']);
@@ -55,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/dato/{id}',[datoController::class,'show']);
 
     //reportes
+    //Obtener Balanza de comprobación
     Route::get('/balanzaComp',[reporteController::class,'balanzaComp']);
+    //Obtener Libro Mayor de un modo detallado
     Route::get('/libroMayor1',[reporteController::class,'libroMayor1']);
+    //Obtener Libro Mayor de un modo generalizado
     Route::get('/libroMayor2',[reporteController::class,'libroMayor2']);
