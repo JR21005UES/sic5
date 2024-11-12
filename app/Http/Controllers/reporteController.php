@@ -10,47 +10,47 @@ class reporteController extends Controller
     protected $utilidadDelEjercicio; // Propiedad para almacenar el valor
 
     public function balanzaComp()
-{
-    $datos = Dato::with('catalogo')
-        ->get()
-        ->groupBy('id_catalogo')
-        ->map(function ($grupo) {
-            $nombreCuenta = $grupo->first()->catalogo->nombre;
-            $naturaleza = $grupo->first()->catalogo->naturaleza_id;
+    {
+        $datos = Dato::with('catalogo')
+            ->get()
+            ->groupBy('id_catalogo')
+            ->map(function ($grupo) {
+                $nombreCuenta = $grupo->first()->catalogo->nombre;
+                $naturaleza = $grupo->first()->catalogo->naturaleza_id;
 
-            $totalDebe = $grupo->sum('debe');
-            $totalHaber = $grupo->sum('haber');
+                $totalDebe = $grupo->sum('debe');
+                $totalHaber = $grupo->sum('haber');
 
-            // Calcula los totales deudor y acreedor en función de la naturaleza de la cuenta
-            $totalDeudor = $naturaleza == 1 ? $totalDebe - $totalHaber : null;
-            $totalAcreedor = $naturaleza == 3 ? $totalHaber - $totalDebe : null;
+                // Calcula los totales deudor y acreedor en función de la naturaleza de la cuenta
+                $totalDeudor = $naturaleza == 1 ? $totalDebe - $totalHaber : null;
+                $totalAcreedor = $naturaleza == 3 ? $totalHaber - $totalDebe : null;
 
-            return [
-                'nombre_cuenta' => $nombreCuenta,
-                'total_debe' => $totalDebe,
-                'total_haber' => $totalHaber,
-                'total_deudor' => $totalDeudor,
-                'total_acreedor' => $totalAcreedor,
-            ];
-        })->values(); // Convierte la colección en un array y elimina las claves
+                return [
+                    'nombre_cuenta' => $nombreCuenta,
+                    'total_debe' => $totalDebe,
+                    'total_haber' => $totalHaber,
+                    'total_deudor' => $totalDeudor,
+                    'total_acreedor' => $totalAcreedor,
+                ];
+            })->values(); // Convierte la colección en un array y elimina las claves
 
-    // Calcular los totales generales
-    $totalDebeGeneral = $datos->sum('total_debe');
-    $totalHaberGeneral = $datos->sum('total_haber');
-    $totalDeudorGeneral = $datos->sum('total_deudor');
-    $totalAcreedorGeneral = $datos->sum('total_acreedor');
+        // Calcular los totales generales
+        $totalDebeGeneral = $datos->sum('total_debe');
+        $totalHaberGeneral = $datos->sum('total_haber');
+        $totalDeudorGeneral = $datos->sum('total_deudor');
+        $totalAcreedorGeneral = $datos->sum('total_acreedor');
 
-    // Agregar los totales generales al final del array
-    $datos->push([
-        'nombre_cuenta' => 'Total',
-        'total_debe' => $totalDebeGeneral,
-        'total_haber' => $totalHaberGeneral,
-        'total_deudor' => $totalDeudorGeneral,
-        'total_acreedor' => $totalAcreedorGeneral,
-    ]);
+        // Agregar los totales generales al final del array
+        $datos->push([
+            'nombre_cuenta' => 'Total',
+            'total_debe' => $totalDebeGeneral,
+            'total_haber' => $totalHaberGeneral,
+            'total_deudor' => $totalDeudorGeneral,
+            'total_acreedor' => $totalAcreedorGeneral,
+        ]);
 
-    return response()->json($datos);
-}
+        return response()->json($datos);
+    }
 
     public function libroMayor1()
     {
@@ -61,14 +61,14 @@ class reporteController extends Controller
                 $nombreCuenta = $grupo->first()->catalogo->nombre;
                 $codigo = $grupo->first()->catalogo->codigo;
                 $naturaleza = $grupo->first()->catalogo->naturaleza_id;
-    
+
                 $totalDebe = $grupo->sum('debe');
                 $totalHaber = $grupo->sum('haber');
-    
+
                 // Calcula los totales deudor y acreedor en función de la naturaleza de la cuenta
                 $totalDeudor = $naturaleza == 1 ? $totalDebe - $totalHaber : null;
                 $totalAcreedor = $naturaleza == 3 ? $totalHaber - $totalDebe : null;
-    
+
                 // Formatear los movimientos de cada grupo
                 $movimientos = $grupo->map(function ($dato) {
                     return [
@@ -77,7 +77,7 @@ class reporteController extends Controller
                         'haber' => $dato->haber,
                     ];
                 });
-    
+
                 return [
                     'codigo' => $codigo,
                     'nombre_cuenta' => $nombreCuenta,
@@ -88,7 +88,7 @@ class reporteController extends Controller
                     'total_acreedor' => $totalAcreedor,
                 ];
             });
-    
+
         return response()->json($datos);
     }
     public function libroMayor2()
@@ -163,7 +163,8 @@ class reporteController extends Controller
 
         return response()->json($resultado);
     }
-    public function estadoResult($InvFin){
+    public function estadoResult($InvFin)
+    {
         $inventarioFinal = $InvFin;
         $resultado = collect();
         $aux1 = $this->mayorizarCuenta(5101)->original;
@@ -253,22 +254,22 @@ class reporteController extends Controller
             'nombre_cuenta' => 'UTILIDAD DE OPERACION',
             'monto' => $aux1
         ]);
-        $aux2 = round($aux1*0.07, 2);
+        $aux2 = round($aux1 * 0.07, 2);
         $resultado->push([
             'nombre_cuenta' => 'RESERVA LEGAL',
             'monto' => $aux2
         ]);
-        $aux3 = round($aux1 - $aux2,2);
+        $aux3 = round($aux1 - $aux2, 2);
         $resultado->push([
             'nombre_cuenta' => 'UTILIDAD ANTES DE IMPUESTO',
             'monto' => $aux3
         ]);
-        $aux1 = round($aux3*0.25,2);
+        $aux1 = round($aux3 * 0.25, 2);
         $resultado->push([
             'nombre_cuenta' => 'IMPUESTO SOBRE LA RENTA',
             'monto' => $aux1
         ]);
-        $aux2 = round($aux3-$aux1, 2);
+        $aux2 = round($aux3 - $aux1, 2);
         $resultado->push([
             'nombre_cuenta' => 'UTILIDAD DEL EJERCICIO',
             'monto' => $aux2
@@ -307,7 +308,8 @@ class reporteController extends Controller
         }
     }
 
-    public function balanceGeneral(){
+    public function balanceGeneral()
+    {
         $resultado = collect(); //Creamos un arreglo al cual le almacenamos TODOS LOS DATOS
 
 
@@ -320,17 +322,61 @@ class reporteController extends Controller
         $resultado->push([
             'nombre_cuenta' => 'INVENTARIO FINAL',
             'monto' => $aux2 //Ingreso el monto de la cuenta
-        ]);      
+        ]);
+        //esta madre da un numero negativo en POSTMAN
         $aux3 = $this->mayorizarCuenta(1103)->original;
         $resultado->push([
             'nombre_cuenta' => 'CUENTAS Y DOCUMENTOS POR COBRAR',
             'monto' => $aux3['total']  //Ingreso el monto de la cuenta
         ]);
+
         $aux4 = $this->mayorizarCuenta(1112)->original;
         $resultado->push([
             'nombre_cuenta' => 'IVA CREDITO FISCAL',
             'monto' => $aux4['total']  //Ingreso el monto de la cuenta
         ]);
+        $totalACorriente = $aux1['total'] + $aux2 + $aux3['total'] + $aux4['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'CORRIENTE',
+            'monto' => $totalACorriente  //Ingreso el monto de la cuenta
+        ]);
+
+        //EMPIEZAN ACTIVOS NO CORRIENTES
+        $aux1 = $this->mayorizarCuenta(1201)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'PROPIEDAD PLANTA Y EQUIPO',
+            'monto' => $aux1['total']  //Ingreso el monto de la cuenta
+        ]);
+
+        $totalANoCorriente = $aux1['total'];
+        $resultado->push([
+            'nombre_cuenta' => 'ACTIVO NO CORRIENTE',
+            'monto' => $totalANoCorriente  //Ingreso el monto de la cuenta
+        ]);
+
+        ////////////TERMINAN ACIVOS, EMPIEZAN PASIVOS
+
+        ///PASIVOS CORRIENTES
+        $aux1 = $this->mayorizarCuenta(2109)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'IVA DEBITO FISCAL',
+            'monto' => $aux1['total']  //Ingreso el monto de la cuenta
+        ]);
+
+        $aux2 = $this->mayorizarCuenta(2104)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'CUENTAS Y DOCUMENTOS POR PAGAR',
+            'monto' => $aux2['total']  //Ingreso el monto de la cuenta
+        ]);
+
+        $aux3 = $this->mayorizarCuenta(2111)->original;
+        $resultado->push([
+            'nombre_cuenta'=> 'IMPUSTOS POR PAGAR',
+            'monto' => $aux3['total'] 
+        ]);
+
+       
+
 
 
         return response()->json($resultado);
