@@ -8,32 +8,48 @@ use App\Models\Dato;
 class reporteController extends Controller
 {
     public function balanzaComp()
-    {
-        $datos = Dato::with('catalogo')
-            ->get()
-            ->groupBy('id_catalogo')
-            ->map(function ($grupo) {
-                $nombreCuenta = $grupo->first()->catalogo->nombre;
-                $naturaleza = $grupo->first()->catalogo->naturaleza_id;
+{
+    $datos = Dato::with('catalogo')
+        ->get()
+        ->groupBy('id_catalogo')
+        ->map(function ($grupo) {
+            $nombreCuenta = $grupo->first()->catalogo->nombre;
+            $naturaleza = $grupo->first()->catalogo->naturaleza_id;
 
-                $totalDebe = $grupo->sum('debe');
-                $totalHaber = $grupo->sum('haber');
+            $totalDebe = $grupo->sum('debe');
+            $totalHaber = $grupo->sum('haber');
 
-                // Calcula los totales deudor y acreedor en función de la naturaleza de la cuenta
-                $totalDeudor = $naturaleza == 1 ? $totalDebe - $totalHaber : null;
-                $totalAcreedor = $naturaleza == 3 ? $totalHaber - $totalDebe : null;
+            // Calcula los totales deudor y acreedor en función de la naturaleza de la cuenta
+            $totalDeudor = $naturaleza == 1 ? $totalDebe - $totalHaber : null;
+            $totalAcreedor = $naturaleza == 3 ? $totalHaber - $totalDebe : null;
 
-                return [
-                    'nombre_cuenta' => $nombreCuenta,
-                    'total_debe' => $totalDebe,
-                    'total_haber' => $totalHaber,
-                    'total_deudor' => $totalDeudor,
-                    'total_acreedor' => $totalAcreedor,
-                ];
-            });
+            return [
+                'nombre_cuenta' => $nombreCuenta,
+                'total_debe' => $totalDebe,
+                'total_haber' => $totalHaber,
+                'total_deudor' => $totalDeudor,
+                'total_acreedor' => $totalAcreedor,
+            ];
+        })->values(); // Convierte la colección en un array y elimina las claves
 
-        return response()->json($datos);
-    }
+    // Calcular los totales generales
+    $totalDebeGeneral = $datos->sum('total_debe');
+    $totalHaberGeneral = $datos->sum('total_haber');
+    $totalDeudorGeneral = $datos->sum('total_deudor');
+    $totalAcreedorGeneral = $datos->sum('total_acreedor');
+
+    // Agregar los totales generales al final del array
+    $datos->push([
+        'nombre_cuenta' => 'Total',
+        'total_debe' => $totalDebeGeneral,
+        'total_haber' => $totalHaberGeneral,
+        'total_deudor' => $totalDeudorGeneral,
+        'total_acreedor' => $totalAcreedorGeneral,
+    ]);
+
+    return response()->json($datos);
+}
+
     public function libroMayor1()
     {
         $datos = Dato::with('catalogo', 'partida')
