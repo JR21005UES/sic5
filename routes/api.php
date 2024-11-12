@@ -66,3 +66,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/libroMayor2',[reporteController::class,'libroMayor2']);
     //Obtener Estado de resultados
     Route::get('/estadoResult/{InvFin}',[reporteController::class,'estadoResult']);
+    //Obtener Balance General
+    Route::get('/balanceGeneral',[reporteController::class,'balanceGeneral']);

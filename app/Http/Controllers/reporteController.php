@@ -7,6 +7,8 @@ use App\Models\Dato;
 
 class reporteController extends Controller
 {
+    protected $utilidadDelEjercicio; // Propiedad para almacenar el valor
+
     public function balanzaComp()
 {
     $datos = Dato::with('catalogo')
@@ -162,6 +164,7 @@ class reporteController extends Controller
         return response()->json($resultado);
     }
     public function estadoResult($InvFin){
+        $inventarioFinal = $InvFin;
         $resultado = collect();
         $aux1 = $this->mayorizarCuenta(5101)->original;
         $resultado->push([
@@ -216,7 +219,7 @@ class reporteController extends Controller
         ]);
         $aux1 = floatval($InvFin);
         $resultado->push([
-            'nombre_cuenta' => 'INVENTARIO FINAL',
+            'nombre_cuenta' => 'INVENTARIO FINAL', //ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
             'monto' => $aux1
         ]);
         $aux2 = $aux3 - $aux1;
@@ -302,6 +305,35 @@ class reporteController extends Controller
         } else {
             return response()->json(['mensaje' => 'La cuenta no es de tipo deudor ni acreedor']);
         }
+    }
+
+    public function balanceGeneral(){
+        $resultado = collect(); //Creamos un arreglo al cual le almacenamos TODOS LOS DATOS
+
+
+        $aux1 = $this->mayorizarCuenta(1101)->original; //Obtenemos el total de la cuenta MAYORIZADA
+        $resultado->push([
+            'nombre_cuenta' => 'EFECTIVO Y EQUIVALENTES DE EFECTIVO', //Ingreso el nombre de la cuenta
+            'monto' => $aux1['total'] //Ingreso el monto de la cuenta
+        ]);
+        $aux2 = 200000;
+        $resultado->push([
+            'nombre_cuenta' => 'INVENTARIO FINAL',
+            'monto' => $aux2 //Ingreso el monto de la cuenta
+        ]);      
+        $aux3 = $this->mayorizarCuenta(1103)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'CUENTAS Y DOCUMENTOS POR COBRAR',
+            'monto' => $aux3['total']  //Ingreso el monto de la cuenta
+        ]);
+        $aux4 = $this->mayorizarCuenta(1112)->original;
+        $resultado->push([
+            'nombre_cuenta' => 'IVA CREDITO FISCAL',
+            'monto' => $aux4['total']  //Ingreso el monto de la cuenta
+        ]);
+
+
+        return response()->json($resultado);
     }
 
 
