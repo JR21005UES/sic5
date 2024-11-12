@@ -41,7 +41,14 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::delete('/partida/{id}',[partidaController::class,'destroy']);
     Route::get('/partida/{id}',[partidaController::class,'show']);
 
-    //Dato
+//Dato//
+    //index
     Route::get('/dato',[datoController::class,'index']);
+    //nuevo registro
     Route::post('/dato',[datoController::class,'store']);
+    //actualizar registro por id
+    Route::put('/dato/{id}',[datoController::class,'update']);
+    //eliminando un registro por id
+    Route::delete('/dato/{id}',[datoController::class,'destroy']);
+    //buscar registro por id
     Route::get('/dato/{id}',[datoController::class,'show']);
