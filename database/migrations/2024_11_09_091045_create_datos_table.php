@@ -14,6 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_partida'); // Llave foránea a partida
             $table->double('debe', 15, 2)->nullable(); // Campo debe
             $table->double('haber', 15, 2)->nullable(); // Campo haber
+            $table->boolean('es_diario');//campo de de comprobacion si es cuenta diario 
             $table->timestamps(); // created_at y updated_at
         
             // Definir llaves foráneas

@@ -12,6 +12,7 @@ class Dato extends Model
     protected $fillable =[
         'id_catalogo',
         'id_partida',
+        'es_diario',//agregamos campo para comprobar si es cierre 
         'debe',
         'haber'
     ];

@@ -20,6 +20,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 1,
                 'debe' => 60000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -28,6 +29,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 1,
                 'debe' => 150000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -36,6 +38,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 1,
                 'debe' => 0,
                 'haber' => 210000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -46,6 +49,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 2,
                 'debe' => 35000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -54,6 +58,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 2,
                 'debe' => 15000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -62,6 +67,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 2,
                 'debe' => 0,
                 'haber' => 44247.79,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -70,6 +76,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 2,
                 'debe' => 0,
                 'haber' => 5752.21,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -80,6 +87,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 3,
                 'debe' => 60000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -88,6 +96,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 3,
                 'debe' => 0,
                 'haber' => 53097.35,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -96,6 +105,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 3,
                 'debe' => 0,
                 'haber' => 6902.65,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -106,6 +116,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 4,
                 'debe' => 884.96,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -114,6 +125,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 4,
                 'debe' => 115.04,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -122,6 +134,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 4,
                 'debe' => 0,
                 'haber' => 1000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -132,6 +145,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 5,
                 'debe' => 1769.91,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -140,6 +154,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 5,
                 'debe' => 230.09,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -148,6 +163,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 5,
                 'debe' => 0,
                 'haber' => 2000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -157,6 +173,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 6,
                 'debe' => 100000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -165,6 +182,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 6,
                 'debe' => 13000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -173,6 +191,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 6,
                 'debe' => 0,
                 'haber' => 63000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -181,6 +200,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 6,
                 'debe' => 0,
                 'haber' => 50000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -191,6 +211,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 7,
                 'debe' => 1700,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -199,6 +220,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 7,
                 'debe' => 221,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -207,6 +229,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 7,
                 'debe' => 0,
                 'haber' => 1921,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -217,6 +240,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 8,
                 'debe' => 13560,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -225,6 +249,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 8,
                 'debe' => 0,
                 'haber' => 12000,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -233,6 +258,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 8,
                 'debe' => 0,
                 'haber' => 1560,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -243,6 +269,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 9,
                 'debe' => 1356,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -251,6 +278,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 9,
                 'debe' => 0,
                 'haber' => 1200,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -259,6 +287,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 9,
                 'debe' => 0,
                 'haber' => 156,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -269,6 +298,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 10,
                 'debe' => 3000,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -277,6 +307,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 10,
                 'debe' => 390,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -285,6 +316,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 10,
                 'debe' => 0,
                 'haber' => 3390,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -294,6 +326,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 11,
                 'debe' => 750,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -302,6 +335,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 11,
                 'debe' => 750,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -310,6 +344,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 11,
                 'debe' => 195,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -318,6 +353,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 11,
                 'debe' => 0,
                 'haber' => 1695,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -328,6 +364,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 12,
                 'debe' => 3500,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -336,6 +373,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 12,
                 'debe' => 0,
                 'haber' => 3141.25,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -344,6 +382,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 12,
                 'debe' => 0,
                 'haber' => 358.75,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -354,6 +393,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 13,
                 'debe' => 500,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -362,6 +402,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 13,
                 'debe' => 0,
                 'haber' => 448.75,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -370,6 +411,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 13,
                 'debe' => 0,
                 'haber' => 51.25,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -380,6 +422,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 14,
                 'debe' => 533.75,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -388,6 +431,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 14,
                 'debe' => 76.25,
                 'haber' => 0,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
@@ -396,6 +440,7 @@ class DatoSeeder extends Seeder
                 'id_partida' => 14,
                 'debe' => 0,
                 'haber' => 610,
+                'es_diario'=1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
             ]
