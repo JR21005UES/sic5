@@ -26,7 +26,8 @@ class datoController extends Controller
             'id_catalogo' => 'required|numeric|exists:catalogo,codigo',
             'id_partida' => 'required|numeric|exists:partida,id',
             'debe' => 'required|numeric',
-            'haber' => 'required|numeric'
+            'haber' => 'required|numeric',
+            'es_diario'=> 'required|boolean'
         ]);
         if ($validator->fails()) {
             $data = [
@@ -43,7 +44,8 @@ class datoController extends Controller
             'id_catalogo' => $request['id_catalogo'],
             'id_partida' => $request['id_partida'],
             'debe' => $request['debe'],
-            'haber' => $request['haber']
+            'haber' => $request['haber'],
+            'es_diario'$request['es_diario']
         ]);
         $data = [
             'dato' => $dato,
@@ -87,7 +89,8 @@ class datoController extends Controller
             'id_catalogo' => 'required|numeric|exists:catalogo,codigo',
             'id_partida' => 'required|numeric|exists:partida,id',
             'debe' => 'required|numeric',
-            'haber' => 'required|numeric'
+            'haber' => 'required|numeric',
+            'es_diaria'=> 'required|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -104,6 +107,7 @@ class datoController extends Controller
         $dato->id_partida = $request['id_partida'];
         $dato->debe = $request['debe'];
         $dato->haber = $request['haber'];
+        $dato->es_diario =$request['es_diario'];
 
         if (!$dato->save()) {
             $data = [

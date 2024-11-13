@@ -21,7 +21,6 @@ class partidaController extends Controller
         $validator =Validator::make($request->all(),[
             'num_de_partida'=>'required|numeric|unique:partida,num_de_partida',
             'fecha'=>'required|date',
-            'es_diario'=> 'required|boolean',
             'concepto'=>'required|string'
         ]);
 
@@ -37,7 +36,6 @@ class partidaController extends Controller
         $partida=  Partida::create([
             'num_de_partida'=> $request['num_de_partida'],
             'fecha'=> $request['fecha'],
-            'es_diario'=> $request['es_diario']
             'concepto'=> $request['concepto']
         ]);
 
@@ -64,7 +62,6 @@ class partidaController extends Controller
         //validar datos enviado
         $validator =Validator::make($request->all(),[
             'fecha'=>'required|date',
-            'es_diario'=> 'required|boolean',
             'concepto'=>'required|string'
         ]);
         //Retornar si hay error
@@ -77,7 +74,6 @@ class partidaController extends Controller
         }
         //actualizar datos
         $partida->fecha = $request['fecha'];
-        $partida->es_diario =$request['es_diario'];
         $partida->concepto = $request['concepto'];
        
 
