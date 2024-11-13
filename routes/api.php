@@ -58,13 +58,4 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/dato/{id}',[datoController::class,'show']);
 
     //reportes
-    //Obtener Balanza de comprobación
-    Route::get('/balanzaComp',[reporteController::class,'balanzaComp']);
-    //Obtener Libro Mayor de un modo detallado
-    Route::get('/libroMayor1',[reporteController::class,'libroMayor1']);
-    //Obtener Libro Mayor de un modo generalizado
-    Route::get('/libroMayor2',[reporteController::class,'libroMayor2']);
-    //Obtener Estado de resultados
-    Route::get('/estadoResult/{InvFin}',[reporteController::class,'estadoResult']);
-    //Obtener Balance General
-    Route::get('/balanceGeneral',[reporteController::class,'balanceGeneral']);
+    Route::get('/reporte/{instruccion}/{valor}',[reporteController::class,'reportes']);
