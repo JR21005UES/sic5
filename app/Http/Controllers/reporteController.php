@@ -28,22 +28,6 @@ class reporteController extends Controller
                 return response()->json(['mensaje' => 'Instrucción no válida']);
                 break;
         }
-        /*
-        foreach ($reporte as $cuenta) {
-            if ($cuenta['codigo'] == '31' && $cuenta['concepto'] == 'TOTAL') {
-                $data = [
-                    'nombre' => $cuenta['nombre_cuenta'],
-                    'total_Deudor' => $cuenta['total_deudor'],
-                    'total_Acreedor' =>  $cuenta['total_acreedor'],
-                    'status' => 201
-                ];
-               
-                
-                break; // Detenemos el ciclo si encontramos la cuenta
-            }
-        }
-                */
-        
         return response()->json($reporte);
     }    
     public function libMayor()
@@ -69,11 +53,14 @@ class reporteController extends Controller
                         'haber' => $totalHaber,
                         'total_deudor' => $totalDeudor,
                         'total_acreedor' => $totalAcreedor,
+                        'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
                     ]);
+                    
                 }
                 // Reinicia los totales para el nuevo grupo de cuentas
                 $codigoActual = $dato->id_catalogo;
                 $nombreCuentaActual = $dato->catalogo->nombre;
+                $naturaleza = $dato->catalogo->naturaleza_id;
                 $totalDebe = 0;
                 $totalHaber = 0;
 
@@ -96,7 +83,7 @@ class reporteController extends Controller
             // Suma los valores de debe y haber
             $totalDebe += $dato->debe;
             $totalHaber += $dato->haber;
-            $nombreCuentaActual = $dato->catalogo->nombre;
+            $nombreCuentaActual = $dato->catalogo->nombre;            
             $naturaleza = $dato->catalogo->naturaleza_id;
             $totalDeudor = ($naturaleza == 1 || $naturaleza == 2) ? $totalDebe - $totalHaber : null;
             $totalAcreedor = ($naturaleza == 3) ? $totalHaber - $totalDebe : null;
@@ -111,7 +98,9 @@ class reporteController extends Controller
                 'debe' => $totalDebe,
                 'haber' => $totalHaber,
                 'total_deudor' => $totalDeudor,
-                'total_acreedor' => $totalAcreedor,
+                'total_acreedor' => $totalAcreedor, 
+                'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
+                   
             ]);
         }
         $this->libroMayor = $resultado->toArray(); // Guarda el resultado en una propiedad
@@ -126,6 +115,7 @@ class reporteController extends Controller
             $totalHaber = 0;
             $totalDeudor = 0;
             $totalAcreedor = 0;
+            $naturaleza = 100;
 
             //verifica que su oncepto sea TOTAL
            // Verifica si el índice 'concepto' existe y si su valor es 'TOTAL'
@@ -136,6 +126,7 @@ class reporteController extends Controller
                 $totalHaber = $mayor[$i]['haber'] ?? 0;
                 $totalDeudor = $mayor[$i]['total_deudor'] ?? 0;
                 $totalAcreedor = $mayor[$i]['total_acreedor'] ?? 0;
+                $naturaleza = $mayor[$i]['naturaleza'] ?? 0;
                 
                 $resultado->push([
                     'codigo' => $codigo,
@@ -144,6 +135,7 @@ class reporteController extends Controller
                     'total_haber' => $totalHaber,
                     'total_deudor' => $totalDeudor,
                     'total_acreedor' => $totalAcreedor,
+                    'naturaleza' => $naturaleza,
                 ]);
             }
 
@@ -153,88 +145,88 @@ class reporteController extends Controller
     }
     public function estadoResul($balComp)
     {
-        $resultado = $this->buscarCuenta('1101',$balComp);
+        $resultado = collect();
+        $aux1 = $this->buscarCuenta(5101, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+
+            
+        ]);
+        $aux2 = $this->buscarCuenta(45, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+
+            
+        ]);
+        $ventasNetas = $aux1['total'] - $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => "VENTAS NETA",
+            'total' => $ventasNetas ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+        $aux1 = $this->buscarCuenta(44, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+
+            
+        ]);
+        $aux2 = $this->buscarCuenta(46, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+            'naturaleza' => $aux2['Naturaleza'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+
+            
+        ]);
+        $comprasTotales = $aux1['total'] + $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => "COMPRAS TOTALES",
+            'total' => $comprasTotales ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+        $aux1 = $this->buscarCuenta(53, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+
+            
+        ]);
+        $comprasNetas = $comprasTotales- $aux1['total'];
+        $resultado->push([
+            'nombre_cuenta' => "COMPRAS NETAS",
+            'total' => $comprasNetas ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
     
         return $resultado;
     }
 
-    public function buscarCuenta($numDCuenta,$cuentas){
-        foreach ($cuentas as $cuenta) {
-            if ($cuenta['codigo'] == $numDCuenta) {
-                return $cuenta;
+    public function buscarCuenta($numDCuenta, $cuentas)
+{
+    foreach ($cuentas as $cuenta) {
+        if ($cuenta['codigo'] == $numDCuenta) {
+            // Determina la naturaleza y retorna el nombre de la cuenta con el total correcto
+            $nombreCuenta = $cuenta['nombre_cuenta'];
+            if ($cuenta['naturaleza'] == 'deudor') {
+                return [
+                    'nombre_cuenta' => $nombreCuenta,
+                    'total' => $cuenta['total_deudor'],
+                    'Naturaleza' => $cuenta['naturaleza'],
+
+                ];
+            } elseif ($cuenta['naturaleza'] == 'acreedor') {
+                return [
+                    'nombre_cuenta' => $nombreCuenta,
+                    'total' => $cuenta['total_acreedor'],
+                    'Naturaleza' => $cuenta['naturaleza'],
+
+                ];
             }
         }
-        return null;
     }
+    return null;
+}
 
-    public function balanceGeneral()
-    {
-        $resultado = collect(); //Creamos un arreglo al cual le almacenamos TODOS LOS DATOS
-
-
-        $aux1 = $this->mayorizarCuenta(1101)->original; //Obtenemos el total de la cuenta MAYORIZADA
-        $resultado->push([
-            'nombre_cuenta' => 'EFECTIVO Y EQUIVALENTES DE EFECTIVO', //Ingreso el nombre de la cuenta
-            'monto' => $aux1['total'] //Ingreso el monto de la cuenta
-        ]);
-        $aux2 = 200000;
-        $resultado->push([
-            'nombre_cuenta' => 'INVENTARIO FINAL',
-            'monto' => $aux2 //Ingreso el monto de la cuenta
-        ]);
-        //esta madre da un numero negativo en POSTMAN
-        $aux3 = $this->mayorizarCuenta(1103)->original;
-        $resultado->push([
-            'nombre_cuenta' => 'CUENTAS Y DOCUMENTOS POR COBRAR',
-            'monto' => $aux3['total']  //Ingreso el monto de la cuenta
-        ]);
-
-        $aux4 = $this->mayorizarCuenta(1112)->original;
-        $resultado->push([
-            'nombre_cuenta' => 'IVA CREDITO FISCAL',
-            'monto' => $aux4['total']  //Ingreso el monto de la cuenta
-        ]);
-        $totalACorriente = $aux1['total'] + $aux2 + $aux3['total'] + $aux4['total'];
-        $resultado->push([
-            'nombre_cuenta' => 'CORRIENTE',
-            'monto' => $totalACorriente  //Ingreso el monto de la cuenta
-        ]);
-
-        //EMPIEZAN ACTIVOS NO CORRIENTES
-        $aux1 = $this->mayorizarCuenta(1201)->original;
-        $resultado->push([
-            'nombre_cuenta' => 'PROPIEDAD PLANTA Y EQUIPO',
-            'monto' => $aux1['total']  //Ingreso el monto de la cuenta
-        ]);
-
-        $totalANoCorriente = $aux1['total'];
-        $resultado->push([
-            'nombre_cuenta' => 'ACTIVO NO CORRIENTE',
-            'monto' => $totalANoCorriente  //Ingreso el monto de la cuenta
-        ]);
-
-        ////////////TERMINAN ACIVOS, EMPIEZAN PASIVOS
-
-        ///PASIVOS CORRIENTES
-        $aux1 = $this->mayorizarCuenta(2109)->original;
-        $resultado->push([
-            'nombre_cuenta' => 'IVA DEBITO FISCAL',
-            'monto' => $aux1['total']  //Ingreso el monto de la cuenta
-        ]);
-
-        $aux2 = $this->mayorizarCuenta(2104)->original;
-        $resultado->push([
-            'nombre_cuenta' => 'CUENTAS Y DOCUMENTOS POR PAGAR',
-            'monto' => $aux2['total']  //Ingreso el monto de la cuenta
-        ]);
-
-        $aux3 = $this->mayorizarCuenta(2111)->original;
-        $resultado->push([
-            'nombre_cuenta'=> 'IMPUSTOS POR PAGAR',
-            'monto' => $aux3['total'] 
-        ]);
-        return response()->json($resultado);
-    }
 
 
 
