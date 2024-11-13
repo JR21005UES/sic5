@@ -24,7 +24,7 @@ class partidaController extends Controller
             'concepto'=>'required|string'
         ]);
 
-        //Retornar si hay error
+        //Retornar si hay errorv frwevwfew
         if($validator->fails()){
             $data=[
                 'message'=>'Error en la validacion de los datos',
