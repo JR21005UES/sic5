@@ -26,16 +26,14 @@ class reporteController extends Controller
             case 5:
                 $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
                 break;
-            case 6:
-                $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
-                break;
             default:
                 return response()->json(['mensaje' => 'Instrucción no válida']);
                 break;
         }
         return response()->json($reporte);
     }    
-    public function libDiario(){
+    public function libDiario()
+    {
         $partidas = Partida::all();
         $datos = Dato::all();
         $resultado = collect();
@@ -63,82 +61,81 @@ class reporteController extends Controller
         }
     
         return $resultado;
-    }
-    
+    } 
     public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
             ->where('es_diario', 1) // Filtra solo los registros con es_diario == 1
             ->orderBy('id_catalogo') // Ordena por el código de la cuenta
             ->get();
-        
+
         $resultado = collect();
         $codigoActual = null;
         $totalDebe = 0;
         $totalHaber = 0;
+        $totalDeudor = 0;
+        $totalAcreedor = 0;
+        $movimientos = [];
 
         foreach ($datos as $dato) {
+            // Si cambiamos de cuenta, añadimos el total y reiniciamos los acumuladores
             if ($codigoActual !== $dato->id_catalogo) {
-                // Si ya hemos procesado cuentas previas, añadimos el total al final del grupo
                 if ($codigoActual !== null) {
+                    // Añadimos el total y los movimientos al final del grupo actual
                     $resultado->push([
                         'codigo' => $codigoActual,
                         'nombre_cuenta' => $nombreCuentaActual,
+                        'movimientos' => $movimientos,
                         'concepto' => 'TOTAL',
-                        'debe' => $totalDebe,
-                        'haber' => $totalHaber,
-                        'total_deudor' => $totalDeudor,
-                        'total_acreedor' => $totalAcreedor,
+                        'debe' => $totalDebe ?? 0,
+                        'haber' => $totalHaber ?? 0,
+                        'total_deudor' => $totalDeudor ?? 0,
+                        'total_acreedor' => $totalAcreedor ?? 0,
                         'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
                     ]);
-                    
                 }
-                // Reinicia los totales para el nuevo grupo de cuentas
+
+                // Reinicia los valores para la nueva cuenta
                 $codigoActual = $dato->id_catalogo;
                 $nombreCuentaActual = $dato->catalogo->nombre;
                 $naturaleza = $dato->catalogo->naturaleza_id;
                 $totalDebe = 0;
                 $totalHaber = 0;
-
-                // Añade el nombre de la cuenta al inicio del grupo
-                $resultado->push([
-                    'codigo' => $dato->catalogo->codigo,
-                    'nombre_cuenta' => $dato->catalogo->nombre,
-                ]);
+                $movimientos = [];
             }
 
-            // Agrega el movimiento al resultado mostrando el concepto de la partida
-            $resultado->push([
-                'codigo' => $dato->catalogo->codigo, 
+            // Añadimos el movimiento al array de movimientos
+            $movimientos[] = [
                 'numero_partida' => $dato->partida->num_de_partida,
                 'debe' => $dato->debe,
                 'haber' => $dato->haber,
                 'concepto' => $dato->partida->concepto,
-            ]);
+            ];
 
-            // Suma los valores de debe y haber
+            // Acumulamos los valores de debe y haber
             $totalDebe += $dato->debe;
             $totalHaber += $dato->haber;
-            $nombreCuentaActual = $dato->catalogo->nombre;            
-            $naturaleza = $dato->catalogo->naturaleza_id;
+
+            // Calcula el total deudor y acreedor
             $totalDeudor = ($naturaleza == 1 || $naturaleza == 2) ? $totalDebe - $totalHaber : null;
             $totalAcreedor = ($naturaleza == 3) ? $totalHaber - $totalDebe : null;
         }
 
-        // Añadir el último total al final del último grupo
+        // Añadir el último total y movimientos al final del último grupo
         if ($codigoActual !== null) {
             $resultado->push([
                 'codigo' => $codigoActual,
                 'nombre_cuenta' => $nombreCuentaActual,
+                'movimientos' => $movimientos,
                 'concepto' => 'TOTAL',
-                'debe' => $totalDebe,
-                'haber' => $totalHaber,
-                'total_deudor' => $totalDeudor,
-                'total_acreedor' => $totalAcreedor, 
+                'debe' => $totalDebe ?? 0,
+                'haber' => $totalHaber ?? 0,
+                'total_deudor' => $totalDeudor ?? 0,
+                'total_acreedor' => $totalAcreedor ?? 0,
                 'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
-                   
             ]);
         }
+
         $this->libroMayor = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->libroMayor;
     }
@@ -158,10 +155,10 @@ class reporteController extends Controller
             if (isset($mayor[$i]['concepto']) && $mayor[$i]['concepto'] === 'TOTAL') {
                 $codigo = $mayor[$i]['codigo'] ?? '';
                 $nombreCuenta = $mayor[$i]['nombre_cuenta'] ?? '';
-                $totalDebe = $mayor[$i]['debe'] ?? 0;
-                $totalHaber = $mayor[$i]['haber'] ?? 0;
-                $totalDeudor = $mayor[$i]['total_deudor'] ?? 0;
-                $totalAcreedor = $mayor[$i]['total_acreedor'] ?? 0;
+                $totalDebe = round($mayor[$i]['debe'] ,2)?? 0;
+                $totalHaber = round($mayor[$i]['haber'] ,2)?? 0;
+                $totalDeudor = round($mayor[$i]['total_deudor'] ,2)?? 0;
+                $totalAcreedor = round($mayor[$i]['total_acreedor'] ,2)?? 0;
                 $naturaleza = $mayor[$i]['naturaleza'] ?? 0;
                 
                 $resultado->push([
@@ -385,7 +382,6 @@ class reporteController extends Controller
         ]);
         return $resultado;
     }
-
     public function buscarCuenta($numDCuenta, $cuentas)
     {
         foreach ($cuentas as $cuenta) {
