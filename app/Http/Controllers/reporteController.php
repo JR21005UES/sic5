@@ -31,9 +31,10 @@ class reporteController extends Controller
     public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
+            ->where('es_diario', 1) // Filtra solo los registros con es_diario == 1
             ->orderBy('id_catalogo') // Ordena por el código de la cuenta
             ->get();
-
+        
         $resultado = collect();
         $codigoActual = null;
         $totalDebe = 0;
