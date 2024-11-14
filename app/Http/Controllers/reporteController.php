@@ -273,7 +273,7 @@ class reporteController extends Controller
 
         $utilsEjercicio = $utilsAntesImpuesto - $impuestoSobreRenta ;
         $resultado->push([
-            'nombre_cuenta' => "IMPUESTO SOBRE LA RENTA",
+            'nombre_cuenta' => "UTILIDAD DEL EJERCICIO",
             'total' => $utilsEjercicio ?? 0, // Muestra el total correspondiente o 0 si no se encontró
         ]);
 
