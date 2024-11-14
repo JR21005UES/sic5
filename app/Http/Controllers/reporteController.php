@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dato;
+use App\Models\Partida;
 
 class reporteController extends Controller
 {
@@ -11,15 +12,21 @@ class reporteController extends Controller
     {
         switch ($instruccion){
             case 1:
-                $reporte = $this->libMayor();
+                $reporte = $this->libDiario();
                 break;
             case 2:
-                $reporte = $this->balanzaComp($this->libMayor());
+                $reporte = $this->libMayor();
                 break;
             case 3:
-                $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()), $valor);
+                $reporte = $this->balanzaComp($this->libMayor());
                 break;
             case 4:
+                $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()), $valor);
+                break;
+            case 5:
+                $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
+                break;
+            case 6:
                 $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
                 break;
             default:
@@ -28,6 +35,36 @@ class reporteController extends Controller
         }
         return response()->json($reporte);
     }    
+    public function libDiario(){
+        $partidas = Partida::all();
+        $datos = Dato::all();
+        $resultado = collect();
+    
+        // Recorre el arreglo cuantas veces tenga partidas
+        foreach ($partidas as $partida) {
+            $movimientos = [];
+    
+            foreach ($datos as $dato) {
+                if ($dato->id_partida == $partida->id) {
+                    $movimientos[] = [
+                        'codigo' => $dato->id_catalogo,
+                        'nombre_cuenta' => $dato->catalogo->nombre,
+                        'debe' => $dato->debe,
+                        'haber' => $dato->haber
+                    ];
+                }
+            }
+    
+            $resultado->push([
+                'numero_partida' => $partida->num_de_partida,
+                'movimientos' => $movimientos,
+                'concepto' => $partida->concepto,
+            ]);
+        }
+    
+        return $resultado;
+    }
+    
     public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
