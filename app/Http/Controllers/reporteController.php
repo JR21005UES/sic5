@@ -16,7 +16,7 @@ class reporteController extends Controller
                 $reporte = $this->balanzaComp($this->libMayor());
                 break;
             case 3:
-                $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()));
+                $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()), $valor);
                 break;
             case 4:
                 $reporte = $this->balanceGen();
@@ -143,7 +143,7 @@ class reporteController extends Controller
         $this->balanzaComp = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->balanzaComp;
     }
-    public function estadoResul($balComp)
+    public function estadoResul($balComp, $invFinal)
     {
         $resultado = collect();
         $aux1 = $this->buscarCuenta(5101, $balComp);
@@ -197,6 +197,89 @@ class reporteController extends Controller
             'nombre_cuenta' => "COMPRAS NETAS",
             'total' => $comprasNetas ?? 0, // Muestra el total correspondiente o 0 si no se encontró
         ]);
+        
+        
+        ///aca epiezo
+        $inventario = $this->buscarCuenta(1109, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $inventario['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $inventario['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $mercDisponible = $comprasNetas + $inventario['total'];
+        $resultado->push([
+            'nombre_cuenta' => "MERCADERIA DISPONIBLE",
+            'total' => $mercDisponible ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+            //INVENTARIO
+        $resultado->push(values: [
+            'nombre_cuenta' => "INVENTARIO FINAL",
+            'total' => (float) ($invFinal ?? 0), // Convierte el total a float o usa 0 si no se encuentra
+        ]);
+        //costo de venta
+        $costoVenta = $mercDisponible - $invFinal;
+        $resultado->push([
+            'nombre_cuenta' => "COSTO DE VENTAS",
+            'total' => $costoVenta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+        //UTILIDAD BRUTA
+        $utilBruta = $ventasNetas - $costoVenta;
+        $resultado->push([
+            'nombre_cuenta' => "UTILIDAD BRUTAs",
+            'total' => $utilBruta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $aux1 = $this->buscarCuenta(4202, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+        $aux2 = $this->buscarCuenta(4201, $balComp);
+        $resultado->push([
+            'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
+            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $costOperacion = $aux1['total'] + $aux2['total'];
+        $resultado->push([
+            'nombre_cuenta' => "GASTOS DE OPERACION",
+            'total' => $costOperacion ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $utilOperacion = $utilBruta - $costOperacion;
+        $resultado->push([
+            'nombre_cuenta' => "COSTO DE OPERACION",
+            'total' => $utilOperacion ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $reservaLegal = $utilOperacion * 0.07;
+        $resultado->push([
+            'nombre_cuenta' => "RESERVA LEGAL",
+            'total' => $reservaLegal ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $utilsAntesImpuesto = $utilOperacion - $reservaLegal;
+        $resultado->push([
+            'nombre_cuenta' => "UTILIDADES ANTES DE IMPUESTO",
+            'total' => $utilsAntesImpuesto ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $impuestoSobreRenta = $utilsAntesImpuesto * 0.25;
+        $resultado->push([
+            'nombre_cuenta' => "IMPUESTO SOBRE LA RENTA",
+            'total' => $impuestoSobreRenta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+        $utilsEjercicio = $utilsAntesImpuesto - $impuestoSobreRenta ;
+        $resultado->push([
+            'nombre_cuenta' => "IMPUESTO SOBRE LA RENTA",
+            'total' => $utilsEjercicio ?? 0, // Muestra el total correspondiente o 0 si no se encontró
+        ]);
+
+
+        
+
     
         return $resultado;
     }
