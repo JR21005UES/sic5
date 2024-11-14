@@ -59,8 +59,8 @@ class reporteController extends Controller
                 'concepto' => $partida->concepto,
             ]);
         }
-    
-        return $resultado;
+        $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
+        return $this->libroDiario;
     } 
     public function libMayor()
     {
