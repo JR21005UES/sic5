@@ -149,68 +149,57 @@ class reporteController extends Controller
         $aux1 = $this->buscarCuenta(5101, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-
+            'total' => $aux1['total'] ?? 0, 
             
         ]);
         $aux2 = $this->buscarCuenta(45, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-
+            'total' => $aux2['total'] ?? 0, 
             
         ]);
         $ventasNetas = $aux1['total'] - $aux2['total'];
         $resultado->push([
             'nombre_cuenta' => "VENTAS NETA",
-            'total' => $ventasNetas ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $ventasNetas ?? 0,         ]);
         $aux1 = $this->buscarCuenta(44, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-
+            'total' => $aux1['total'] ?? 0, 
             
         ]);
         $aux2 = $this->buscarCuenta(46, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-            'naturaleza' => $aux2['Naturaleza'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-
+            'total' => $aux2['total'] ?? 0, 
             
         ]);
         $comprasTotales = $aux1['total'] + $aux2['total'];
         $resultado->push([
             'nombre_cuenta' => "COMPRAS TOTALES",
-            'total' => $comprasTotales ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $comprasTotales ?? 0,         ]);
         $aux1 = $this->buscarCuenta(53, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-
+            'total' => $aux1['total'] ?? 0, 
             
         ]);
         $comprasNetas = $comprasTotales- $aux1['total'];
         $resultado->push([
             'nombre_cuenta' => "COMPRAS NETAS",
-            'total' => $comprasNetas ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $comprasNetas ?? 0,         ]);
         
         
         ///aca epiezo
         $inventario = $this->buscarCuenta(1109, $balComp);
         $resultado->push([
             'nombre_cuenta' => $inventario['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $inventario['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $inventario['total'] ?? 0,         ]);
 
         $mercDisponible = $comprasNetas + $inventario['total'];
         $resultado->push([
             'nombre_cuenta' => "MERCADERIA DISPONIBLE",
-            'total' => $mercDisponible ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $mercDisponible ?? 0,         ]);
 
             //INVENTARIO
         $resultado->push(values: [
@@ -221,96 +210,73 @@ class reporteController extends Controller
         $costoVenta = $mercDisponible - $invFinal;
         $resultado->push([
             'nombre_cuenta' => "COSTO DE VENTAS",
-            'total' => $costoVenta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $costoVenta ?? 0,         ]);
         //UTILIDAD BRUTA
         $utilBruta = $ventasNetas - $costoVenta;
         $resultado->push([
             'nombre_cuenta' => "UTILIDAD BRUTAs",
-            'total' => $utilBruta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $utilBruta ?? 0,         ]);
 
         $aux1 = $this->buscarCuenta(4202, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux1['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux1['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $aux1['total'] ?? 0,         ]);
         $aux2 = $this->buscarCuenta(4201, $balComp);
         $resultado->push([
             'nombre_cuenta' => $aux2['nombre_cuenta'] ?? 'Cuenta no encontrada',
-            'total' => $aux2['total'] ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $aux2['total'] ?? 0,         ]);
 
         $costOperacion = $aux1['total'] + $aux2['total'];
         $resultado->push([
             'nombre_cuenta' => "GASTOS DE OPERACION",
-            'total' => $costOperacion ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $costOperacion ?? 0,         ]);
 
         $utilOperacion = $utilBruta - $costOperacion;
         $resultado->push([
             'nombre_cuenta' => "COSTO DE OPERACION",
-            'total' => $utilOperacion ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $utilOperacion ?? 0,         ]);
 
         $reservaLegal = $utilOperacion * 0.07;
         $resultado->push([
             'nombre_cuenta' => "RESERVA LEGAL",
-            'total' => $reservaLegal ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $reservaLegal ?? 0,         ]);
 
         $utilsAntesImpuesto = $utilOperacion - $reservaLegal;
         $resultado->push([
             'nombre_cuenta' => "UTILIDADES ANTES DE IMPUESTO",
-            'total' => $utilsAntesImpuesto ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $utilsAntesImpuesto ?? 0,         ]);
 
         $impuestoSobreRenta = $utilsAntesImpuesto * 0.25;
         $resultado->push([
             'nombre_cuenta' => "IMPUESTO SOBRE LA RENTA",
-            'total' => $impuestoSobreRenta ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
+            'total' => $impuestoSobreRenta ?? 0,         ]);
 
         $utilsEjercicio = $utilsAntesImpuesto - $impuestoSobreRenta ;
         $resultado->push([
             'nombre_cuenta' => "UTILIDAD DEL EJERCICIO",
-            'total' => $utilsEjercicio ?? 0, // Muestra el total correspondiente o 0 si no se encontró
-        ]);
-
-
-        
-
-    
+            'total' => round($utilsEjercicio, 2) ?? 0,         ]);    
         return $resultado;
     }
 
     public function buscarCuenta($numDCuenta, $cuentas)
-{
-    foreach ($cuentas as $cuenta) {
-        if ($cuenta['codigo'] == $numDCuenta) {
-            // Determina la naturaleza y retorna el nombre de la cuenta con el total correcto
-            $nombreCuenta = $cuenta['nombre_cuenta'];
-            if ($cuenta['naturaleza'] == 'deudor') {
-                return [
-                    'nombre_cuenta' => $nombreCuenta,
-                    'total' => $cuenta['total_deudor'],
-                    'Naturaleza' => $cuenta['naturaleza'],
-
-                ];
-            } elseif ($cuenta['naturaleza'] == 'acreedor') {
-                return [
-                    'nombre_cuenta' => $nombreCuenta,
-                    'total' => $cuenta['total_acreedor'],
-                    'Naturaleza' => $cuenta['naturaleza'],
-
-                ];
+    {
+        foreach ($cuentas as $cuenta) {
+            if ($cuenta['codigo'] == $numDCuenta) {
+                // Determina la naturaleza y retorna el nombre de la cuenta con el total correcto
+                $nombreCuenta = $cuenta['nombre_cuenta'];
+                if ($cuenta['naturaleza'] == 'deudor') {
+                    return [
+                        'nombre_cuenta' => $nombreCuenta,
+                        'total' => $cuenta['total_deudor'],
+                    ];
+                } elseif ($cuenta['naturaleza'] == 'acreedor') {
+                    return [
+                        'nombre_cuenta' => $nombreCuenta,
+                        'total' => $cuenta['total_acreedor'],
+                    ];
+                }
             }
         }
+        return null;
     }
-    return null;
-}
-
-
-
-
 }
