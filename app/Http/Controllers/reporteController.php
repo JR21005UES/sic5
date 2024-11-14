@@ -7,7 +7,8 @@ use App\Models\Dato;
 
 class reporteController extends Controller
 {
-    public function reportes($instruccion,$valor){
+    public function reportes($instruccion,$valor)
+    {
         switch ($instruccion){
             case 1:
                 $reporte = $this->libMayor();
@@ -19,10 +20,7 @@ class reporteController extends Controller
                 $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()), $valor);
                 break;
             case 4:
-                $reporte = $this->balanceGen();
-                break;
-            case 5:
-                $reporte = $this->libroMayor2();
+                $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
                 break;
             default:
                 return response()->json(['mensaje' => 'Instrucción no válida']);
@@ -255,6 +253,98 @@ class reporteController extends Controller
         $resultado->push([
             'nombre_cuenta' => "UTILIDAD DEL EJERCICIO",
             'total' => round($utilsEjercicio, 2) ?? 0,         ]);    
+        return $resultado;
+    }
+    public function balanceGen($estadoResult, $libMayor)
+    {
+        $resultado = collect();
+        $aux1 = $libMayor[5];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_deudor"],
+        ]);
+        $aux2 = $estadoResult[10];
+        $resultado->push([
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total"],
+        ]);
+        $aux3 = $libMayor[6];
+        $resultado->push([
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => $aux3["total_deudor"],
+        ]);
+        $aux4 = $libMayor[8];
+        $resultado->push([
+            'nombre_cuenta' => $aux4["nombre_cuenta"],
+            'total' => $aux4["total_deudor"],
+        ]);
+        $totalActivoCorriente = $aux1["total_deudor"] + $aux2["total"] + $aux3["total_deudor"] + $aux4["total_deudor"];
+        $resultado->push([
+            'nombre_cuenta' => "ACTIVO CORRIENTE",
+            'total' => $totalActivoCorriente,
+        ]);
+        $aux1 = $libMayor[9];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_deudor"],
+        ]);
+        $totalActivoNoCorriente = $aux1["total_deudor"];
+        $resultado->push([
+            'nombre_cuenta' => "ACTIVO NO CORRIENTE",
+            'total' => $totalActivoNoCorriente,
+        ]);
+        $aux1 = $libMayor[11];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_acreedor"],
+        ]);
+        $aux2 = $libMayor[10];
+        $resultado->push([
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total_acreedor"],
+        ]);
+        $aux3 = $estadoResult[19];
+        $resultado->push([
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => round($aux3["total"],2),
+        ]);
+        $totalPasivoCorriente = $aux1["total_acreedor"] + $aux2["total_acreedor"] + $aux3["total"];
+        $resultado->push([
+            'nombre_cuenta' => "PASIVO CORRIENTE",
+            'total' => $totalPasivoCorriente,
+        ]);
+        $aux1 = $libMayor[0];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_acreedor"],
+        ]);
+        $aux2 = $estadoResult[17];
+        $resultado->push([
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total"],
+        ]);
+        $aux3 = $estadoResult[20];
+        $resultado->push([
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => $aux3["total"],
+        ]);
+        $totalPasivoNoCorriente = $aux1["total_acreedor"] + $aux2["total"] + $aux3["total"];
+        $resultado->push([
+            'nombre_cuenta' => "CAPITAL CONTABLE",
+            'total' => $totalPasivoNoCorriente,
+        ]);
+        $totalActivo = $totalActivoCorriente + $totalActivoNoCorriente;
+        $totalActivo = round($totalActivo,2);
+        $resultado->push([
+            'nombre_cuenta' => "TOTAL ACTIVO",
+            'total' => $totalActivo,
+        ]);
+        $totalPasivo = $totalPasivoCorriente + $totalPasivoNoCorriente;
+        $totalPasivo = round($totalPasivo,2);
+        $resultado->push([
+            'nombre_cuenta' => "TOTAL PASIVO",
+            'total' => $totalPasivo,
+        ]);
         return $resultado;
     }
 
