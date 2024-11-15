@@ -107,13 +107,13 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 6, 'nombre' => 'CUENTA DE CIERRE', 'descripcion' => 'Cuenta utilizada para el cierre del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 61, 'nombre' => 'CUENTA LIQUIDADORA', 'descripcion' => 'Cuenta que liquida las operaciones del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 6101, 'nombre' => 'PÉRDIDAS Y GANANCIAS', 'descripcion' => 'Cuenta de pérdidas y ganancias para el cierre del ejercicio', 'naturaleza_id' => 3],
-            ['codigo' => 6102, 'nombre' => 'IVA', 'descripcion' => 'IVA', 'naturaleza_id' => 3],
-            ['codigo' => 6103, 'nombre' => 'COMPRAS TOTALES', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6104, 'nombre' => 'COMPRAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6105, 'nombre' => 'TOTAL DE MERCADERIA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6106, 'nombre' => 'UTILIDAD BRUTA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6107, 'nombre' => 'VENTAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6108, 'nombre' => 'INVENTARIO FINAL', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6102, 'nombre' => 'IVA', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 3],
+            ['codigo' => 6103, 'nombre' => 'COMPRAS TOTALES', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
+            ['codigo' => 6104, 'nombre' => 'COMPRAS NETAS', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
+            ['codigo' => 6105, 'nombre' => 'TOTAL DE MERCADERIA', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
+            ['codigo' => 6106, 'nombre' => 'UTILIDAD BRUTA', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
+            ['codigo' => 6107, 'nombre' => 'VENTAS NETAS', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
+            ['codigo' => 6108, 'nombre' => 'INVENTARIO FINAL', 'descripcion' => 'asdasdasd', 'naturaleza_id' => 1],
         ]);
     }
 }

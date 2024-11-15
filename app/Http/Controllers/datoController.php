@@ -90,7 +90,7 @@ class datoController extends Controller
             'id_partida' => 'required|numeric|exists:partida,num_de_partida',
             'debe' => 'required|numeric',
             'haber' => 'required|numeric',
-            'es_diaria'=> 'required|boolean'
+            'es_diario'=> 'required|boolean'
         ]);
 
         if ($validator->fails()) {
