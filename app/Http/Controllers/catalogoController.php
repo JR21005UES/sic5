@@ -82,7 +82,7 @@ class CatalogoController extends Controller
     {
         // Validar la solicitud
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string|max:255|unique:catalogo,nombre',
+            'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'codigo' => 'required|numeric|unique:catalogo,codigo',
             'naturaleza_id' => 'required|exists:naturaleza,id'
