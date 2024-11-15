@@ -55,7 +55,7 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 2113, 'nombre' => 'INTERESES POR PAGAR', 'descripcion' => 'Intereses pendientes de pago', 'naturaleza_id' => 3],
             ['codigo' => 22, 'nombre' => 'NO CORRIENTE', 'descripcion' => 'Pasivo no corriente', 'naturaleza_id' => 3],
             ['codigo' => 2201, 'nombre' => 'PRESTAMOS POR PAGAR', 'descripcion' => 'Préstamos a largo plazo', 'naturaleza_id' => 3],
-            ['codigo' => 2202, 'nombre' => 'DOCUMENTOS POR PAGAR', 'descripcion' => 'Documentos pendientes de pago a largo plazo', 'naturaleza_id' => 3],
+            ['codigo' => 2202, 'nombre' => 'CUENTAS Y DOCUMENTOS POR PAGAR', 'descripcion' => 'Documentos pendientes de pago a largo plazo', 'naturaleza_id' => 3],
             ['codigo' => 2203, 'nombre' => 'INGRESOS DIFERIDOS', 'descripcion' => 'Ingresos diferidos a largo plazo', 'naturaleza_id' => 3],
             ['codigo' => 2204, 'nombre' => 'PROVISION PARA OBLIGACIONES LABORALES', 'descripcion' => 'Provisión para obligaciones laborales', 'naturaleza_id' => 3],
             ['codigo' => 2205, 'nombre' => 'PASIVO POR IMPUESTO SOBRE LA RENTA DIFERIDO', 'descripcion' => 'Impuesto diferido sobre la renta', 'naturaleza_id' => 3],

@@ -134,16 +134,12 @@ class PartidaSeeder extends Seeder
                 'num_de_partida' => 24,
                 'fecha' => '2024-01-14',
                 'concepto' => 'Translado a la cuenta "utlidades" '
+            ],
+            [
+                'num_de_partida' => 25,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Cierre del ciclo contable'
             ]
-
-
-
-
-
-        
-
-
-
             // Agrega más registros aquí según tus necesidades
         ]);
     }

@@ -466,7 +466,7 @@ class DatoSeeder extends Seeder
             [
                 'id_catalogo' => 6102,//Iva
                 'id_partida' => 15,
-                'debe' => 0
+                'debe' => 0,
                 'haber' => 219.73,
                 'es_diario'=>0,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
@@ -674,11 +674,7 @@ class DatoSeeder extends Seeder
                 'es_diario'=>0,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
-            ],
-
-                    
-
-
+            ],   
         ]);
     }
 }
