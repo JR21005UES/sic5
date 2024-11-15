@@ -443,6 +443,25 @@ class DatoSeeder extends Seeder
                 'es_diario'=>1,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
+            ],
+            //partida 15
+            [
+                'id_catalogo' => 2109,//iva debito fiscal
+                'id_partida' => 15,
+                'debe' => 12309,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 1112,//iva credito fiscal
+                'id_partida' => 15,
+                'debe' => 12090,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
             ]
            
 
