@@ -45,7 +45,7 @@ class datoController extends Controller
             'id_partida' => $request['id_partida'],
             'debe' => $request['debe'],
             'haber' => $request['haber'],
-            'es_diario'$request['es_diario']
+            'es_diario'=> $request['es_diario']
         ]);
         $data = [
             'dato' => $dato,

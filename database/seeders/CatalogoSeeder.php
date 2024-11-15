@@ -8,33 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class CatalogoSeeder extends Seeder
 {
-    /*
-        //Consulta SQL para obtener las cuentas cuyo código comienza con un numero especifico
-        SELECT 
-        c.codigo,
-        c.nombre,
-        c.descripcion,
-        CASE 
-            WHEN n.es_cuenta_r = 1 THEN 'Sí'
-            ELSE 'No'
-        END AS Cuenta_R,
-            CASE 
-            WHEN n.deudor_acreedor = 1 THEN 'Acreedor'
-            ELSE 'Deudor'
-        END AS Naturaleza
-        FROM 
-            catalogo c
-        JOIN 
-            naturaleza n ON c.naturaleza_id = n.id
-        WHERE 
-            c.codigo LIKE '2%'; -- Filtra solo las cuentas cuyo código comienza con '?'
-     */
     public function run(): void
     {
         DB::table('catalogo')->insert([
             // Cuentas de Activo
-            //['codigo' => 1, 'nombre' => 'ACTIVO', 'descripcion' => 'Cuenta de activo', 'naturaleza_id' => 1],
-            //['codigo' => 11, 'nombre' => 'CORRIENTE', 'descripcion' => 'Activo corriente', 'naturaleza_id' => 1],
+            ['codigo' => 1, 'nombre' => 'ACTIVO', 'descripcion' => 'Cuenta de activo', 'naturaleza_id' => 1],
+            ['codigo' => 11, 'nombre' => 'CORRIENTE', 'descripcion' => 'Activo corriente', 'naturaleza_id' => 1],
             ['codigo' => 1101, 'nombre' => 'EFECTIVO Y EQUIVALENTES DE EFECTIVO', 'descripcion' => 'Cuenta de efectivo', 'naturaleza_id' => 1],
             ['codigo' => 1102, 'nombre' => 'INVERSIONES FINANCIERAS A CORTO PLAZO', 'descripcion' => 'Inversiones a corto plazo', 'naturaleza_id' => 1],
             ['codigo' => 1103, 'nombre' => 'CUENTAS Y DOCUMENTOS POR COBRAR', 'descripcion' => 'Cuentas y documentos pendientes de cobro', 'naturaleza_id' => 1],
@@ -59,8 +38,8 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 1208, 'nombre' => 'ACTIVO POR IMPUESTOS SOBRE LA RENTA DIFERIDO', 'descripcion' => 'Activo por impuestos diferidos', 'naturaleza_id' => 1],
             
             // Cuentas de Pasivo
-            //['codigo' => 2, 'nombre' => 'PASIVO', 'descripcion' => 'Cuenta de pasivo', 'naturaleza_id' => 3],
-            //['codigo' => 21, 'nombre' => 'CORRIENTE', 'descripcion' => 'Pasivo corriente', 'naturaleza_id' => 3],
+            ['codigo' => 2, 'nombre' => 'PASIVO', 'descripcion' => 'Cuenta de pasivo', 'naturaleza_id' => 3],
+            ['codigo' => 21, 'nombre' => 'CORRIENTE', 'descripcion' => 'Pasivo corriente', 'naturaleza_id' => 3],
             ['codigo' => 2101, 'nombre' => 'SOBRE GIROS BANCARIOS', 'descripcion' => 'Pasivo por sobregiros bancarios', 'naturaleza_id' => 3],
             ['codigo' => 2102, 'nombre' => 'CUENTAS COMERCIALES POR PAGAR', 'descripcion' => 'Obligaciones comerciales a corto plazo', 'naturaleza_id' => 3],
             ['codigo' => 2103, 'nombre' => 'DOCUMENTOS POR COBRAR DESCONTADOS', 'descripcion' => 'Documentos descontados por cobrar', 'naturaleza_id' => 3],
