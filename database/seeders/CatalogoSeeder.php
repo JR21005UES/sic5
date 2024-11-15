@@ -113,7 +113,7 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 6105, 'nombre' => 'TOTAL DE MERCADERIA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
             ['codigo' => 6106, 'nombre' => 'UTILIDAD BRUTA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
             ['codigo' => 6107, 'nombre' => 'VENTAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
-            ['codigo' => 6108, 'nombre' => 'VENTAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6108, 'nombre' => 'INVENTARIO FINAL', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
         ]);
     }
 }
