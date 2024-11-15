@@ -178,6 +178,9 @@ class reporteController extends Controller
     }
     public function estadoResul($balComp, $invFinal)
     {
+        if($balComp == null){
+            return null;
+        }
         $resultado = collect();
         $aux1 = $this->buscarCuenta(5101, $balComp);
         $resultado->push([
@@ -293,6 +296,9 @@ class reporteController extends Controller
     public function balanceGen($estadoResult, $libMayor)
     {
         $resultado = collect();
+        if($libMayor == null || $estadoResult == null){	
+            return null;
+        }
         $aux1 = $libMayor[5];
         $resultado->push([
             'nombre_cuenta' => $aux1["nombre_cuenta"],
