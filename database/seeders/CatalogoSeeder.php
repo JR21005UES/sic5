@@ -8,27 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class CatalogoSeeder extends Seeder
 {
-    /*
-        //Consulta SQL para obtener las cuentas cuyo código comienza con un numero especifico
-        SELECT 
-        c.codigo,
-        c.nombre,
-        c.descripcion,
-        CASE 
-            WHEN n.es_cuenta_r = 1 THEN 'Sí'
-            ELSE 'No'
-        END AS Cuenta_R,
-            CASE 
-            WHEN n.deudor_acreedor = 1 THEN 'Acreedor'
-            ELSE 'Deudor'
-        END AS Naturaleza
-        FROM 
-            catalogo c
-        JOIN 
-            naturaleza n ON c.naturaleza_id = n.id
-        WHERE 
-            c.codigo LIKE '2%'; -- Filtra solo las cuentas cuyo código comienza con '?'
-     */
     public function run(): void
     {
         DB::table('catalogo')->insert([
@@ -128,6 +107,13 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 6, 'nombre' => 'CUENTA DE CIERRE', 'descripcion' => 'Cuenta utilizada para el cierre del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 61, 'nombre' => 'CUENTA LIQUIDADORA', 'descripcion' => 'Cuenta que liquida las operaciones del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 6101, 'nombre' => 'PÉRDIDAS Y GANANCIAS', 'descripcion' => 'Cuenta de pérdidas y ganancias para el cierre del ejercicio', 'naturaleza_id' => 3],
+            ['codigo' => 6102, 'nombre' => 'IVA', 'descripcion' => 'IVA', 'naturaleza_id' => 3],
+            ['codigo' => 6103, 'nombre' => 'COMPRAS TOTALES', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6104, 'nombre' => 'COMPRAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6105, 'nombre' => 'TOTAL DE MERCADERIA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6106, 'nombre' => 'UTILIDAD BRUTA', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6107, 'nombre' => 'VENTAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
+            ['codigo' => 6108, 'nombre' => 'VENTAS NETAS', 'Total de las compras' => 'IVA', 'naturaleza_id' => 1],
         ]);
     }
 }

@@ -24,7 +24,7 @@ class datoController extends Controller
         //validator
         $validator = Validator::make($request->all(), [
             'id_catalogo' => 'required|numeric|exists:catalogo,codigo',
-            'id_partida' => 'required|numeric|exists:partida,id',
+            'id_partida' => 'required|numeric|exists:partida,num_de_partida',
             'debe' => 'required|numeric',
             'haber' => 'required|numeric',
             'es_diario'=> 'required|boolean'
@@ -45,7 +45,7 @@ class datoController extends Controller
             'id_partida' => $request['id_partida'],
             'debe' => $request['debe'],
             'haber' => $request['haber'],
-            'es_diario'$request['es_diario']
+            'es_diario'=> $request['es_diario']
         ]);
         $data = [
             'dato' => $dato,
@@ -87,7 +87,7 @@ class datoController extends Controller
         // Validando la solicitud
         $validator = Validator::make($request->all(), [
             'id_catalogo' => 'required|numeric|exists:catalogo,codigo',
-            'id_partida' => 'required|numeric|exists:partida,id',
+            'id_partida' => 'required|numeric|exists:partida,num_de_partida',
             'debe' => 'required|numeric',
             'haber' => 'required|numeric',
             'es_diaria'=> 'required|boolean'

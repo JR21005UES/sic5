@@ -83,7 +83,67 @@ class PartidaSeeder extends Seeder
                 'num_de_partida' => 14,
                 'fecha' => '2024-01-14',
                 'concepto' => 'Provisión de cuota patronal'
+            ],
+            [
+                'num_de_partida' => 15,
+                'fecha' => '2024-01-14',
+                'concepto' => 'liquidacion de IVA'
+            ],
+            [
+                'num_de_partida' => 16,
+                'fecha' => '2024-01-14',
+                'concepto' => 'liquidacion de cuenta'
+            ],
+            [
+                'num_de_partida' => 17,
+                'fecha' => '2024-01-14',
+                'concepto' => 'liquidacion por gastos'
+            ],
+            [
+                'num_de_partida' => 18,
+                'fecha' => '2024-01-14',
+                'concepto' => 'liquidacion de rebajas y devoluciones/compras'
             ]
+            ,
+            [
+                'num_de_partida' => 19,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Saldar cuentas de inventario'
+            ],
+            [
+                'num_de_partida' => 20,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Determinar costo de venta y apertura de inventario final'
+            ],
+            [
+                'num_de_partida' => 21,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Determinar la utilidad bruta'
+            ],
+            [
+                'num_de_partida' => 22,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Identificacion de la utlididad del ejercicio'
+            ],
+            [
+                'num_de_partida' => 23,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Liquidacion de gastos'
+            ],
+            [
+                'num_de_partida' => 24,
+                'fecha' => '2024-01-14',
+                'concepto' => 'Translado a la cuenta "utlidades" '
+            ]
+
+
+
+
+
+        
+
+
+
             // Agrega más registros aquí según tus necesidades
         ]);
     }
