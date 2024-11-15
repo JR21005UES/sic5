@@ -462,6 +462,95 @@ class DatoSeeder extends Seeder
                 'es_diario'=>0,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 6102,//Iva
+                'id_partida' => 15,
+                'debe' => 0
+                'haber' => 219.73,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            //partida 17
+            
+            [
+                'id_catalogo' => 44,//compras
+                'id_partida' => 17,
+                'debe' => 1700,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 46,//gastos sobre compras
+                'id_partida' => 17,
+                'debe' => 1700,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ]
+            //partida 18
+            ,
+            [
+                'id_catalogo' => 53,//Reb dev sobre compras
+                'id_partida' => 18,
+                'debe' => 13200,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 44,//compras
+                'id_partida' => 18,
+                'debe' => 0,
+                'haber' => 13200,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ]
+            //partida 19
+            ,
+            [
+                'id_catalogo' => 44,//compras
+                'id_partida' => 19,
+                'debe' => 150000,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 1109,//inventario inicial
+                'id_partida' => 19,
+                'debe' => 0,
+                'haber' => 150000,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ]
+            //partida 20
+            ,
+            [
+                'id_catalogo' => 6108,//inventario final
+                'id_partida' => 20,
+                'debe' => 200000,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 44,//compras
+                'id_partida' => 20,
+                'debe' => 0,
+                'haber' => 200000,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
             ]
            
 
