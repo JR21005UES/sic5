@@ -472,6 +472,25 @@ class DatoSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL
             ],
+             // partida 16
+            [
+                'id_catalogo' => 5101,
+                'id_partida' => 16,
+                'debe' => 2654.87,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 45,
+                'id_partida' => 16,
+                'debe' => 0,
+                'haber' => 2654.87,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
             //partida 17
             
             [
@@ -551,8 +570,113 @@ class DatoSeeder extends Seeder
                 'es_diario'=>0,//agregado campo para comprobar si es de diario
                 'created_at' => NULL,
                 'updated_at' => NULL
-            ]
-           
+            ],
+            
+            //partida 21
+            [
+                'id_catalogo' => 5101,
+                'id_partida' => 21,
+                'debe' => 38500.00,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 44,
+                'id_partida' => 21,
+                'debe' => 0,
+                'haber' => 38500.00,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            //partida 22
+            [
+                'id_catalogo' => 5101,
+                'id_partida' => 22,
+                'debe' => 56190.27,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 2104,
+                'id_partida' => 22,
+                'debe' => 0,
+                'haber' => 11643.66,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 3103,
+                'id_partida' => 22,
+                'debe' => 0,
+                'haber' => 3505.62,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 6101,
+                'id_partida' => 22,
+                'debe' => 0,
+                'haber' => 41040.99,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            //partida 23
+            [
+                'id_catalogo' => 6101,
+                'id_partida' => 23,
+                'debe' => 6110.00,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 4202,
+                'id_partida' => 23,
+                'debe' => 0,
+                'haber' => 4793.75,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 4201,
+                'id_partida' => 23,
+                'debe' => 0,
+                'haber' => 1326.25,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            //partida 24
+            [
+                'id_catalogo' => 6101,
+                'id_partida' => 24,
+                'debe' => 34930.99,
+                'haber' => 0,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+            [
+                'id_catalogo' => 3106,
+                'id_partida' => 24,
+                'debe' => 0,
+                'haber' => 34930.99,
+                'es_diario'=>0,//agregado campo para comprobar si es de diario
+                'created_at' => NULL,
+                'updated_at' => NULL
+            ],
+
+                    
 
 
         ]);
