@@ -14,9 +14,9 @@ class NaturalezaSeeder extends Seeder
     public function run(): void
     {
         DB::table('naturaleza')->insert([
-            ['id' => 1, 'es_cuenta_r' => 0, 'deudor_acreedor' => 0], //Deudor
-            ['id' => 2, 'es_cuenta_r' => 1, 'deudor_acreedor' => 0], //Deudor Cuenta R
-            ['id' => 3, 'es_cuenta_r' => 0, 'deudor_acreedor' => 1], //Acreedor
+            ['id' => 1, 'nombre' => "Deudor", 'es_cuenta_r' => 0, 'deudor_acreedor' => 0], //Deudor
+            ['id' => 2, 'nombre' => "Deudor cuenta R", 'es_cuenta_r' => 1, 'deudor_acreedor' => 0], //Deudor Cuenta R
+            ['id' => 3, 'nombre' => "Acreedor", 'es_cuenta_r' => 0, 'deudor_acreedor' => 1], //Acreedor
         ]);
     }
 }

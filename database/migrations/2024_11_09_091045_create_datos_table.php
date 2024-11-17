@@ -16,6 +16,7 @@ return new class extends Migration
             $table->double('haber', 15, 2)->nullable(); // Campo haber
             $table->boolean('es_diario');//campo de de comprobacion si es cuenta diario 
             $table->timestamps(); // created_at y updated_at
+            $table->softDeletes(); // deleted_at
         
             // Definir llaves foráneas
             $table->foreign('id_catalogo')->references('codigo')->on('catalogo')->onDelete('no action');

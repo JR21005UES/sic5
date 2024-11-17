@@ -16,7 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('num_de_partida');
             $table->date('fecha');
-            $table->string('concepto');
+            $table->string('concepto');            
+            $table->softDeletes();
         });
     }
 
