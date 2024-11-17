@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dato;
 use App\Models\Partida;
+use App\Models\Catalogo;
 
 class reporteController extends Controller
 {
@@ -117,42 +118,31 @@ class reporteController extends Controller
         $mayor = $this->libMayor();
         $resultado = collect();
         for ($i = 0; $i < count($mayor); $i++) {
-            $nombreCuenta = "";
-            $totalDebe = 0;
-            $totalHaber = 0;
-            $totalDeudor = 0;
-            $totalAcreedor = 0;
-            $naturaleza = 100;
-            if ($totalAcreedo != 0 && $totalDeudor != 0){ {
-                $codigo = $mayor[$i]['codigo'] ?? '';
-                $nombreCuenta = $mayor[$i]['nombre_cuenta'] ?? '';
-                $totalDebe = round($mayor[$i]['debe'] ,2)?? 0;
-                $totalHaber = round($mayor[$i]['haber'] ,2)?? 0;
-                $totalDeudor = round($mayor[$i]['total_deudor'] ,2)?? 0;
-                $totalAcreedor = round($mayor[$i]['total_acreedor'] ,2)?? 0;
-                $naturaleza = $mayor[$i]['naturaleza'] ?? 0;
-                
-                $resultado->push([
-                    'codigo' => $codigo,
-                    'nombre_cuenta' => $nombreCuenta,
-                    'total_debe' => $totalDebe,
-                    'total_haber' => $totalHaber,
-                    'total_deudor' => $totalDeudor,
-                    'total_acreedor' => $totalAcreedor,
-                    'naturaleza' => $naturaleza,
-                ]);
-            }
-
+            $codigo = $mayor[$i]['codigo'] ?? '';
+            $nombreCuenta = $mayor[$i]['nombre_cuenta'] ?? '';
+            $totalDebe = round($mayor[$i]['debe'] ,2)?? 0;
+            $totalHaber = round($mayor[$i]['haber'] ,2)?? 0;
+            $totalDeudor = round($mayor[$i]['total_deudor'] ,2)?? 0;
+            $totalAcreedor = round($mayor[$i]['total_acreedor'] ,2)?? 0;
+            $naturaleza = Catalogo::where('codigo', $codigo)->value('naturaleza_id');
+            
+            $resultado->push([
+                'codigo' => $codigo,
+                'nombre_cuenta' => $nombreCuenta,
+                'total_debe' => $totalDebe,
+                'total_haber' => $totalHaber,
+                'total_deudor' => $totalDeudor,
+                'total_acreedor' => $totalAcreedor,
+                'naturaleza' => $naturaleza,
+            ]); 
         }
         $this->balanzaComp = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->balanzaComp;
-    }}
+    }
     public function estadoResul($invFinal)
     {
         $balComp = $this->balComp();
-        if($balComp == null){
-            return null;
-        }
+        //Buscar una cuenta cuyo codigo sea 5101 usando el MODELO
         $resultado = collect();
         $aux1 = $this->buscarCuenta(5101, $balComp);
         $resultado->push([
@@ -476,12 +466,12 @@ class reporteController extends Controller
         foreach ($cuentas as $cuenta) {
             if ($cuenta['codigo'] == $numDCuenta) {
                 $nombreCuenta = $cuenta['nombre_cuenta'];
-                if ($cuenta['naturaleza'] == 'deudor') {
+                if ($cuenta['naturaleza'] == 1) {
                     return [
                         'nombre_cuenta' => $nombreCuenta,
                         'total' => $cuenta['total_deudor'],
                     ];
-                } elseif ($cuenta['naturaleza'] == 'acreedor') {
+                } elseif ($cuenta['naturaleza'] == 3) {
                     return [
                         'nombre_cuenta' => $nombreCuenta,
                         'total' => $cuenta['total_acreedor'],
