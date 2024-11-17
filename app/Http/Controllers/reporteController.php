@@ -63,12 +63,10 @@ class reporteController extends Controller
                         'codigo' => $codigoActual,
                         'nombre_cuenta' => $nombreCuentaActual,
                         'movimientos' => $movimientos,
-                        'concepto' => 'TOTAL',
                         'debe' => $totalDebe ?? 0,
                         'haber' => $totalHaber ?? 0,
                         'total_deudor' => $totalDeudor ?? 0,
                         'total_acreedor' => $totalAcreedor ?? 0,
-                        'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
                     ]);
                 }
 
@@ -104,12 +102,10 @@ class reporteController extends Controller
                 'codigo' => $codigoActual,
                 'nombre_cuenta' => $nombreCuentaActual,
                 'movimientos' => $movimientos,
-                'concepto' => 'TOTAL',
                 'debe' => $totalDebe ?? 0,
                 'haber' => $totalHaber ?? 0,
                 'total_deudor' => $totalDeudor ?? 0,
                 'total_acreedor' => $totalAcreedor ?? 0,
-                'naturaleza' => $naturaleza == 1 || $naturaleza == 2 ? 'deudor' : 'acreedor',
             ]);
         }
 
@@ -127,10 +123,7 @@ class reporteController extends Controller
             $totalDeudor = 0;
             $totalAcreedor = 0;
             $naturaleza = 100;
-
-            //verifica que su oncepto sea TOTAL
-           // Verifica si el índice 'concepto' existe y si su valor es 'TOTAL'
-            if (isset($mayor[$i]['concepto']) && $mayor[$i]['concepto'] === 'TOTAL') {
+            if ($totalAcreedo != 0 && $totalDeudor != 0){ {
                 $codigo = $mayor[$i]['codigo'] ?? '';
                 $nombreCuenta = $mayor[$i]['nombre_cuenta'] ?? '';
                 $totalDebe = round($mayor[$i]['debe'] ,2)?? 0;
@@ -153,7 +146,7 @@ class reporteController extends Controller
         }
         $this->balanzaComp = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->balanzaComp;
-    }
+    }}
     public function estadoResul($invFinal)
     {
         $balComp = $this->balComp();
