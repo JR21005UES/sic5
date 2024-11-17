@@ -18,25 +18,23 @@ class reporteController extends Controller
         // Recorre el arreglo cuantas veces tenga partidas
         foreach ($partidas as $partida) {
             $movimientos = [];
-            $resultado->push([
-                'codigo' => '**********',
-                'nombre_cuenta' =>'Partida Numero #'. $partida->num_de_partida,
-                'debe' => 'v/ '.$partida->concepto,
-                'haber' => '**********',
-            ]);
     
             foreach ($datos as $dato) {
                 if ($dato->id_partida == $partida->id) {
-                    $resultado->push([
+                    $movimientos[] = [
                         'codigo' => $dato->id_catalogo,
                         'nombre_cuenta' => $dato->catalogo->nombre,
                         'debe' => $dato->debe,
                         'haber' => $dato->haber
-                    ]);
+                    ];
                 }
             }
     
-            
+            $resultado->push([
+                'numero_partida' => $partida->num_de_partida,
+                'movimientos' => $movimientos,
+                'concepto' => $partida->concepto,
+            ]);
         }
         $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->libroDiario;
