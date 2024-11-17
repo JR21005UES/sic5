@@ -8,34 +8,8 @@ use App\Models\Partida;
 
 class reporteController extends Controller
 {
-    public function reportes($instruccion,$valor)
-    {
-        switch ($instruccion){
-            case 1:
-                $reporte = $this->libDiario();
-                break;
-            case 2:
-                $reporte = $this->libMayor();
-                break;
-            case 3:
-                $reporte = $this->balanzaComp($this->libMayor());
-                break;
-            case 4:
-                $reporte = $this->estadoResul($this->balanzaComp($this->libMayor()), $valor);
-                break;
-            case 5:
-                $reporte = $this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor()));
-                break;
-            case 6:
-                $reporte = $this->cierreEjer($this->balanceGen($this->estadoResul($this->balanzaComp($this->libMayor()), $valor),$this->balanzaComp($this->libMayor())));
-                break;
-            default:
-                return response()->json(['mensaje' => 'Instrucción no válida']);
-                break;
-        }
-        return response()->json($reporte);
-    }    
-    public function libDiario()
+      
+    public function libroDiario()
     {
         $partidas = Partida::all();
         $datos = Dato::all();
@@ -142,8 +116,9 @@ class reporteController extends Controller
         $this->libroMayor = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->libroMayor;
     }
-    public function balanzaComp($mayor)
+    public function balComp()
     {
+        $mayor = $this->libMayor();
         $resultado = collect();
         for ($i = 0; $i < count($mayor); $i++) {
             $nombreCuenta = "";
@@ -179,8 +154,9 @@ class reporteController extends Controller
         $this->balanzaComp = $resultado->toArray(); // Guarda el resultado en una propiedad
         return $this->balanzaComp;
     }
-    public function estadoResul($balComp, $invFinal)
+    public function estadoResul($invFinal)
     {
+        $balComp = $this->balComp();
         if($balComp == null){
             return null;
         }
@@ -227,9 +203,6 @@ class reporteController extends Controller
         $resultado->push([
             'nombre_cuenta' => "COMPRAS NETAS",
             'total' => $comprasNetas ?? 0,         ]);
-        
-        
-        ///aca epiezo
         $inventario = $this->buscarCuenta(1109, $balComp);
         $resultado->push([
             'nombre_cuenta' => $inventario['nombre_cuenta'] ?? 'Cuenta no encontrada',
@@ -239,18 +212,14 @@ class reporteController extends Controller
         $resultado->push([
             'nombre_cuenta' => "MERCADERIA DISPONIBLE",
             'total' => $mercDisponible ?? 0,         ]);
-
-            //INVENTARIO
         $resultado->push(values: [
             'nombre_cuenta' => "INVENTARIO FINAL",
             'total' => (float) ($invFinal ?? 0), // Convierte el total a float o usa 0 si no se encuentra
         ]);
-        //costo de venta
         $costoVenta = $mercDisponible - $invFinal;
         $resultado->push([
             'nombre_cuenta' => "COSTO DE VENTAS",
             'total' => $costoVenta ?? 0,         ]);
-        //UTILIDAD BRUTA
         $utilBruta = $ventasNetas - $costoVenta;
         $resultado->push([
             'nombre_cuenta' => "UTILIDAD BRUTAs",
@@ -513,7 +482,6 @@ class reporteController extends Controller
     {
         foreach ($cuentas as $cuenta) {
             if ($cuenta['codigo'] == $numDCuenta) {
-                // Determina la naturaleza y retorna el nombre de la cuenta con el total correcto
                 $nombreCuenta = $cuenta['nombre_cuenta'];
                 if ($cuenta['naturaleza'] == 'deudor') {
                     return [

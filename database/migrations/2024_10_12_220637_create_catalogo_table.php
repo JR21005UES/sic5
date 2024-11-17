@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('descripcion');
             $table->unsignedBigInteger('naturaleza_id');
-            
+            $table->softDeletes();
             // Definir la clave foránea
             $table->foreign('naturaleza_id')->references('id')->on('naturaleza')->onDelete('no action');
         });

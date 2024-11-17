@@ -117,60 +117,28 @@ class CatalogoController extends Controller
             'status' => 201
         ];
 
-        return response()->json($data, $data['status']);
+        return response()->json('Cuenta creada', 201);
     }
 
-    public function show($digito)
+    public function show($codigo)
     {
-        $cuentas = Catalogo::all();
-        $cuentasOrdenadas = collect();
 
-        // Encuentra todas las cuentas de un dígito que coinciden con el parámetro $digito
-        $cuentasNivel1 = $cuentas->filter(function ($catalogo) use ($digito) {
-            return strlen($catalogo->codigo) == 1 && strpos($catalogo->codigo, (string) $digito) === 0;
-        });
+        $cuenta = Catalogo::where('codigo', $codigo)
+        ->select('codigo', 'nombre', 'descripcion', 'naturaleza_id')
+        ->first();
 
-        foreach ($cuentasNivel1 as $cuentaNivel1) {
-            // Añade la cuenta de nivel 1 con los campos necesarios
-            $cuentasOrdenadas->push([
-                'codigo' => $cuentaNivel1->codigo,
-                'nombre' => $cuentaNivel1->nombre,
-                'descripcion' => $cuentaNivel1->descripcion,
-                'naturaleza' => $this->getNaturalezaDescripcion($cuentaNivel1->naturaleza_id)
-            ]);
-
-            // Encuentra todas las subcuentas de dos dígitos que empiecen con el código de nivel 1
-            $cuentasNivel2 = $cuentas->filter(function ($catalogo) use ($cuentaNivel1) {
-                return strlen($catalogo->codigo) == 2 && strpos($catalogo->codigo, (string) $cuentaNivel1->codigo) === 0;
-            });
-
-            foreach ($cuentasNivel2 as $cuentaNivel2) {
-                // Añade la cuenta de nivel 2 con los campos necesarios
-                $cuentasOrdenadas->push([
-                    'codigo' => $cuentaNivel2->codigo,
-                    'nombre' => $cuentaNivel2->nombre,
-                    'descripcion' => $cuentaNivel2->descripcion,
-                    'naturaleza' => $this->getNaturalezaDescripcion($cuentaNivel2->naturaleza_id)
-                ]);
-
-                // Encuentra todas las subcuentas de tres dígitos que empiecen con el código de nivel 2
-                $cuentasNivel3 = $cuentas->filter(function ($catalogo) use ($cuentaNivel2) {
-                    return strlen($catalogo->codigo) > 2 && strpos($catalogo->codigo, (string) $cuentaNivel2->codigo) === 0;
-                });
-
-                // Añade las cuentas de tres dígitos con los campos necesarios
-                foreach ($cuentasNivel3 as $cuentaNivel3) {
-                    $cuentasOrdenadas->push([
-                        'codigo' => $cuentaNivel3->codigo,
-                        'nombre' => $cuentaNivel3->nombre,
-                        'descripcion' => $cuentaNivel3->descripcion,
-                        'naturaleza' => $this->getNaturalezaDescripcion($cuentaNivel3->naturaleza_id)
-                    ]);
-                }
-            }
+        if(!$cuenta) {
+            return response()->json('El codigo no existe', 404);
         }
-
-        return response()->json($cuentasOrdenadas);
+    
+        $cuentaEncontrada=([
+            'codigo' => $cuenta->codigo,
+            'nombre' => $cuenta->nombre,
+            'descripcion' => $cuenta->descripcion,
+            'naturaleza' => $this->getNaturalezaDescripcion($cuenta->naturaleza_id)
+        ]);
+    
+        return response()->json($cuentaEncontrada);
     }
 
     public function update(Request $request, $codigo)
@@ -223,31 +191,11 @@ class CatalogoController extends Controller
 
     public function destroy($codigo)
     {
-        // Buscar un registro por su id
-        $catalogo = Catalogo::find($codigo);
-
-        if (!$catalogo) {
-            $data = [
-                'message' => 'Registro no encontrado',
-                'status' => 404
-            ];
-            return response()->json($data, $data['status']);
+        $cuenta = Catalogo::where('codigo', $codigo)->first();
+        if (!$cuenta) {
+            return response()->json('El catalogo no existe', 404);
         }
-
-        // Eliminar el registro en la tabla catalogo
-        if (!$catalogo->delete()) {
-            $data = [
-                'message' => 'Error al eliminar el registro',
-                'status' => 500
-            ];
-            return response()->json($data, $data['status']);
-        }
-
-        $data = [
-            'message' => 'Registro eliminado',
-            'status' => 200
-        ];
-
-        return response()->json($data, $data['status']);
+        $cuenta->delete();
+        return response()->json('Cuenta eliminada', 201);
     }
 }

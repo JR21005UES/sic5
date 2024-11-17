@@ -20,11 +20,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function(){
     //Cerrar sesión
     Route::get('/logout', [AuthController::class, 'logout']);    
-});
     //Catalogo
     //Mostrar todos los registros
     Route::get('/catalogo', [CatalogoController::class, 'index']); 
-    //Crear un nuevo registro   
+});
+
     Route::post('/catalogo', [CatalogoController::class, 'store']);
     //Mostrar un registro específico
     Route::get('/catalogo/{codigo}', [CatalogoController::class, 'show']);
@@ -58,4 +58,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/dato/{id}',[datoController::class,'show']);
 
     //reportes
-    Route::get('/reporte/{instruccion}/{valor}',[reporteController::class,'reportes']);
+    Route::get('/libDiario',[reporteController::class,'libroDiario']);
+    Route::get('/libMayor',[reporteController::class,'libMayor']);
+    Route::get('/balComp',[reporteController::class,'balComp']);
+    Route::get('/estadoResul/{invFinal}',[reporteController::class,'estadoResul']);
