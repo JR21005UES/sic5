@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dato;
+use App\Models\Catalogo;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -21,32 +22,56 @@ class datoController extends Controller
     //metodo para crear un nuevo registro
     public function store(Request $request)
     {
-        //validator
+        // Validator
         $validator = Validator::make($request->all(), [
             'id_catalogo' => 'required|numeric|exists:catalogo,codigo',
             'id_partida' => 'required|numeric|exists:partida,num_de_partida',
-            'debe' => 'required|numeric',
-            'haber' => 'required|numeric',
-            'es_diario'=> 'required|boolean'
+            'debe' => 'required_without:haber|numeric|nullable',
+            'haber' => 'required_without:debe|numeric|nullable',
+            'es_diario' => 'required|boolean'
         ]);
+
         if ($validator->fails()) {
             $data = [
-                'message' => 'Error en la validación de los ',
+                'message' => 'Error en la validación de los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
             ];
             return response()->json($data, $data['status']);
         }
 
-        //creando un nuevo registro en la tabala dato
+        // Verifica si es el primer dato ingresado para la cuenta
+        $primerDato = Dato::where('id_catalogo', $request->id_catalogo)->exists();
 
+        if (!$primerDato) {
+            // Obtén la naturaleza de la cuenta
+            $naturaleza = Catalogo::where('codigo', $request->id_catalogo)->value('naturaleza_id');
+
+            // Valida según la naturaleza de la cuenta
+            if (($naturaleza == 1 || $naturaleza == 2) && $request->haber > 0) {
+                return response()->json([
+                    'message' => 'El primer dato ingresado para una cuenta con naturaleza deudora debe ser un debe, no puede ser un haber.',
+                    'status' => 400
+                ], 400);
+            }
+
+            if ($naturaleza == 3 && $request->debe > 0) {
+                return response()->json([
+                    'message' => 'El primer dato ingresado para una cuenta con naturaleza Acreedora debe ser un haber, no puede ser un debe.',
+                    'status' => 400
+                ], 400);
+            }
+        }
+
+        // Creando un nuevo registro en la tabla dato
         $dato = Dato::create([
             'id_catalogo' => $request['id_catalogo'],
             'id_partida' => $request['id_partida'],
             'debe' => $request['debe'],
             'haber' => $request['haber'],
-            'es_diario'=> $request['es_diario']
+            'es_diario' => $request['es_diario']
         ]);
+
         $data = [
             'dato' => $dato,
             'status' => 201

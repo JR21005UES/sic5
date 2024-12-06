@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Catalogo
     //Mostrar todos los registros
     Route::get('/catalogo', [CatalogoController::class, 'index']); 
+    Route::get('/partida',[partidaController::class,'index']);
 });
 
     Route::post('/catalogo', [CatalogoController::class, 'store']);
@@ -35,7 +36,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     //Partidas
     //mostrar todos los registros 
-    Route::get('/partida',[partidaController::class,'index']);
     //Crear un nuevo registro
     Route::post('/partida',[partidaController::class,'store']);
     //Actualizar un registro por id
@@ -61,4 +61,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/libDiario',[reporteController::class,'libroDiario']);
     Route::get('/libMayor',[reporteController::class,'libMayor']);
     Route::get('/balComp',[reporteController::class,'balComp']);
-    Route::get('/estadoResul/{invFinal}',[reporteController::class,'estadoResul']);
+    Route::get('/estadoResul',[reporteController::class,'estadoResul']);
+    Route::get('/balanceGen',[reporteController::class,'balanceGen']);

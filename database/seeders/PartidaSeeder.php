@@ -84,6 +84,7 @@ class PartidaSeeder extends Seeder
                 'fecha' => '2024-01-14',
                 'concepto' => 'Provisión de cuota patronal'
             ],
+            /*
             [
                 'num_de_partida' => 15,
                 'fecha' => '2024-01-14',
@@ -139,7 +140,7 @@ class PartidaSeeder extends Seeder
                 'num_de_partida' => 25,
                 'fecha' => '2024-01-14',
                 'concepto' => 'Cierre del ciclo contable'
-            ]
+            ]*/
             // Agrega más registros aquí según tus necesidades
         ]);
     }

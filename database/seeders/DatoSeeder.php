@@ -354,6 +354,7 @@ class DatoSeeder extends Seeder
                 'haber' => 610,
                 'es_diario'=>1,//agregado campo para comprobar si es de diario
             ],
+            /*
             //partida 15
             [
                 'id_catalogo' => 2109,//iva debito fiscal
@@ -537,6 +538,7 @@ class DatoSeeder extends Seeder
                 'haber' => 34930.99,
                 'es_diario'=>0,//agregado campo para comprobar si es de diario
             ],   
+            */
         ]);
     }
 }

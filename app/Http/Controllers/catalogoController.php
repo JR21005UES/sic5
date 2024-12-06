@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Catalogo;
+use App\Models\Dato;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -191,11 +192,33 @@ class CatalogoController extends Controller
 
     public function destroy($codigo)
     {
+        // Buscar la cuenta principal por su código
         $cuenta = Catalogo::where('codigo', $codigo)->first();
+
+        // Validar si la cuenta existe
         if (!$cuenta) {
-            return response()->json('El catalogo no existe', 404);
+            return response()->json('El catálogo no existe', 404);
         }
+
+        // Verificar si tiene subcuentas asociadas
+        $tieneSubcuentas = Catalogo::where('codigo', 'like', "$codigo%")
+            ->where('codigo', '!=', $codigo)
+            ->exists();
+
+        if ($tieneSubcuentas) {
+            return response()->json('No se puede eliminar. La cuenta tiene subcuentas asociadas.', 400);
+        }
+
+        // Verificar si tiene movimientos asociados en la tabla 'dato'
+        $tieneMovimientos = Dato::where('id_catalogo', $codigo)->exists();
+
+        if ($tieneMovimientos) {
+            return response()->json('No se puede eliminar. La cuenta tiene movimientos registrados.', 400);
+        }
+
+        // Marcar como eliminada (soft delete)
         $cuenta->delete();
-        return response()->json('Cuenta eliminada', 201);
+        return response()->json('Cuenta eliminada', 200);
     }
+
 }
