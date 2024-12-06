@@ -56,7 +56,6 @@ class reporteController extends Controller
         $libroDiarioJson = json_encode($this->libroDiario);
         $libroDiarioString = (string) $libroDiarioJson;
 
-        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
         $this->guardarReporte(1, $libroDiarioString, "libro diario");
 
         // Recuperar el reporte con id 1
@@ -66,7 +65,7 @@ class reporteController extends Controller
 
         return $libroDiarioArray;
     }
-public function libMayor()
+    public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
             ->where('es_diario', 1) // Filtra solo los registros con es_diario == 1
@@ -157,7 +156,6 @@ public function libMayor()
         $jsonEncode = json_encode($this->libroMayor);
         $jsonEncodeString = (string) $jsonEncode;
 
-        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
         $this->guardarReporte(2, $jsonEncodeString, "libro mayor");
 
         // Recuperar el reporte con id 1
@@ -308,158 +306,163 @@ public function libMayor()
         $jsonEncode = json_encode($this->estadoResul);
         $jsonEncodeString = (string) $jsonEncode;
 
-        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
         $this->guardarReporte(4, $jsonEncodeString, "Estado de Resultado");
 
         // Recuperar el reporte con id 4
         $reporte = Reportes::find(4);
 
-        $libroDecode = json_decode($reporte->dato_rep, true);
+        $estadoDecode = json_decode($reporte->dato_rep, true);
 
-        return $libroDecode;
+        return $estadoDecode;
     
     }
-    public function calcularEstadoResultado($invFinal)
+    public function balanceGen()
     {
+        $reporte = Reportes::find(4);
+        $libroDecode = json_decode($reporte->dato_rep, true);
+        $reporte = Reportes::find(2);
+        $libMayor = json_decode($reporte->dato_rep, true);
+        $resultado = collect();
+        $i = 0;
+        if($libMayor == null || $libroDecode == null){	
+            return null;
+        }
+        $aux1 = $libMayor[5];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_deudor"],
+        ]);
+        $aux2 = $libroDecode[10];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total"],
+        ]);
+        $aux3 = $libMayor[6];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => $aux3["total_deudor"],
+        ]);
+        $aux4 = $libMayor[8];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux4["nombre_cuenta"],
+            'total' => $aux4["total_deudor"],
+        ]);
+        $totalActivoCorriente = $aux1["total_deudor"] + $aux2["total"] + $aux3["total_deudor"] + $aux4["total_deudor"];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "ACTIVO CORRIENTE",
+            'total' => $totalActivoCorriente,
+        ]);
+        $aux1 = $libMayor[9];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_deudor"],
+        ]);
+        $totalActivoNoCorriente = $aux1["total_deudor"];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "ACTIVO NO CORRIENTE",
+            'total' => $totalActivoNoCorriente,
+        ]);
+        $aux1 = $libMayor[11];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_acreedor"],
+        ]);
+        $aux2 = $libMayor[10];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total_acreedor"],
+        ]);
+        $aux3 = $libroDecode[19];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => round($aux3["total"],2),
+        ]);
+        $totalPasivoCorriente = $aux1["total_acreedor"] + $aux2["total_acreedor"] + $aux3["total"];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "PASIVO CORRIENTE",
+            'total' => $totalPasivoCorriente,
+        ]);
+        $aux1 = $libMayor[0];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total_acreedor"],
+        ]);
+        $aux2 = $libroDecode[17];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux2["nombre_cuenta"],
+            'total' => $aux2["total"],
+        ]);
+        $aux3 = $libroDecode[20];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => $aux3["nombre_cuenta"],
+            'total' => $aux3["total"],
+        ]);
+        $totalPasivoNoCorriente = $aux1["total_acreedor"] + $aux2["total"] + $aux3["total"];
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "CAPITAL CONTABLE",
+            'total' => $totalPasivoNoCorriente,
+        ]);
+        $totalActivo = $totalActivoCorriente + $totalActivoNoCorriente;
+        $totalActivo = round($totalActivo,2);
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "TOTAL ACTIVO",
+            'total' => $totalActivo,
+        ]);
+        $totalPasivo = $totalPasivoCorriente + $totalPasivoNoCorriente;
+        $totalPasivo = round($totalPasivo,2);
+        $i++;    
+        $resultado->push([
+            'num' => $i,
+            'nombre_cuenta' => "TOTAL PASIVO",
+            'total' => $totalPasivo,
+        ]);
         
+        $this->balanceGene = $resultado->toArray(); // Guarda el resultado en una propiedad
 
+        $jsonEncode = json_encode($this->balanceGene);
+        $jsonEncodeString = (string) $jsonEncode;
+
+        $this->guardarReporte(5, $jsonEncodeString, "Balance General");
+
+        $balanceGene = $this->balanceGene; // Define the variable before returning it
+        return $balanceGene;
     }
-    public function balanceGen($request)
+    public function cierreEjer()
     {
-        return $this->calcularEstadoResultado($request->query('inv_final'));
-
-        
-
-    //     $resultado = collect();
-    //     $i = 0;
-    //     if($libMayor == null || $estadoResult == null){	
-    //         return null;
-    //     }
-    //     $aux1 = $libMayor[5];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux1["nombre_cuenta"],
-    //         'total' => $aux1["total_deudor"],
-    //     ]);
-    //     $aux2 = $estadoResult[10];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux2["nombre_cuenta"],
-    //         'total' => $aux2["total"],
-    //     ]);
-    //     $aux3 = $libMayor[6];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux3["nombre_cuenta"],
-    //         'total' => $aux3["total_deudor"],
-    //     ]);
-    //     $aux4 = $libMayor[8];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux4["nombre_cuenta"],
-    //         'total' => $aux4["total_deudor"],
-    //     ]);
-    //     $totalActivoCorriente = $aux1["total_deudor"] + $aux2["total"] + $aux3["total_deudor"] + $aux4["total_deudor"];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "ACTIVO CORRIENTE",
-    //         'total' => $totalActivoCorriente,
-    //     ]);
-    //     $aux1 = $libMayor[9];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux1["nombre_cuenta"],
-    //         'total' => $aux1["total_deudor"],
-    //     ]);
-    //     $totalActivoNoCorriente = $aux1["total_deudor"];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "ACTIVO NO CORRIENTE",
-    //         'total' => $totalActivoNoCorriente,
-    //     ]);
-    //     $aux1 = $libMayor[11];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux1["nombre_cuenta"],
-    //         'total' => $aux1["total_acreedor"],
-    //     ]);
-    //     $aux2 = $libMayor[10];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux2["nombre_cuenta"],
-    //         'total' => $aux2["total_acreedor"],
-    //     ]);
-    //     $aux3 = $estadoResult[19];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux3["nombre_cuenta"],
-    //         'total' => round($aux3["total"],2),
-    //     ]);
-    //     $totalPasivoCorriente = $aux1["total_acreedor"] + $aux2["total_acreedor"] + $aux3["total"];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "PASIVO CORRIENTE",
-    //         'total' => $totalPasivoCorriente,
-    //     ]);
-    //     $aux1 = $libMayor[0];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux1["nombre_cuenta"],
-    //         'total' => $aux1["total_acreedor"],
-    //     ]);
-    //     $aux2 = $estadoResult[17];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux2["nombre_cuenta"],
-    //         'total' => $aux2["total"],
-    //     ]);
-    //     $aux3 = $estadoResult[20];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => $aux3["nombre_cuenta"],
-    //         'total' => $aux3["total"],
-    //     ]);
-    //     $totalPasivoNoCorriente = $aux1["total_acreedor"] + $aux2["total"] + $aux3["total"];
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "CAPITAL CONTABLE",
-    //         'total' => $totalPasivoNoCorriente,
-    //     ]);
-    //     $totalActivo = $totalActivoCorriente + $totalActivoNoCorriente;
-    //     $totalActivo = round($totalActivo,2);
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "TOTAL ACTIVO",
-    //         'total' => $totalActivo,
-    //     ]);
-    //     $totalPasivo = $totalPasivoCorriente + $totalPasivoNoCorriente;
-    //     $totalPasivo = round($totalPasivo,2);
-    //     $i++;    
-    //     $resultado->push([
-    //         'num' => $i,
-    //         'nombre_cuenta' => "TOTAL PASIVO",
-    //         'total' => $totalPasivo,
-    //     ]);
-    //     return $resultado;
-    }
-    public function cierreEjer($balanGen)
-    {
+        $reporte = Reportes::find(5);
+        $balanGen = json_decode($reporte->dato_rep, true);
         $resultado = collect();
         $datos = collect();
         if($balanGen == null){
