@@ -6,50 +6,66 @@ use Illuminate\Http\Request;
 use App\Models\Dato;
 use App\Models\Partida;
 use App\Models\Catalogo;
+use App\Models\Reportes;
 
 class reporteController extends Controller
 {
       
-    public function libroDiario()
-    {
-        $partidas = Partida::all();
-        $datos = Dato::all()
+ 
+public function libroDiario()
+{
+    $partidas = Partida::all();
+    $datos = Dato::all()
         ->where('es_diario', 1);
-        $resultado = collect();
-        $totalDebe = 0;
-        $totalHaber = 0;
-    
-        // Recorre el arreglo cuantas veces tenga partidas
-        foreach ($partidas as $partida) {
-            $movimientos = [];
-    
-            foreach ($datos as $dato) {
-                if ($dato->id_partida == $partida->id) {
-                    $movimientos[] = [
-                        'codigo' => $dato->id_catalogo,
-                        'nombre_cuenta' => $dato->catalogo->nombre,
-                        'debe' => $dato->debe,
-                        'haber' => $dato->haber
-                    ];
-                    $totalDebe += $dato->debe;
-                    $totalHaber += $dato->haber;
-                }
+    $resultado = collect();
+    $totalDebe = 0;
+    $totalHaber = 0;
+
+    // Recorre el arreglo cuantas veces tenga partidas
+    foreach ($partidas as $partida) {
+        $movimientos = [];
+
+        foreach ($datos as $dato) {
+            if ($dato->id_partida == $partida->id) {
+                $movimientos[] = [
+                    'codigo' => $dato->id_catalogo,
+                    'nombre_cuenta' => $dato->catalogo->nombre,
+                    'debe' => $dato->debe,
+                    'haber' => $dato->haber
+                ];
+                $totalDebe += $dato->debe;
+                $totalHaber += $dato->haber;
             }
-    
-            $resultado->push([
-                'numero_partida' => $partida->num_de_partida,
-                'movimientos' => $movimientos,
-                'concepto' => $partida->concepto,
-            ]);
         }
+
         $resultado->push([
-            'numero_partida' => 'Total',
-            'movimientos' => [],
-            'concepto' => "Total Debe $". $totalDebe . "  |||  Total Haber $". $totalHaber,
+            'numero_partida' => $partida->num_de_partida,
+            'movimientos' => $movimientos,
+            'concepto' => $partida->concepto,
         ]);
-        $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
-        return $this->libroDiario;
-    } 
+    }
+    $resultado->push([
+        'numero_partida' => 'Total',
+        'movimientos' => [],
+        'concepto' => "Total Debe $". $totalDebe . "  |||  Total Haber $". $totalHaber,
+    ]);
+
+    $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
+
+    // Convertir el libro diario a JSON y luego a string
+    $libroDiarioJson = json_encode($this->libroDiario);
+    $libroDiarioString = (string) $libroDiarioJson;
+
+    // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
+    $this->guardarReporte(1, $libroDiarioString, "libro diario");
+
+    // Recuperar el reporte con id 1
+    $reporte = Reportes::find(1);
+
+    $libroDiarioArray = json_decode($reporte->dato_rep, true);
+
+    return $libroDiarioArray;
+}
     public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
@@ -137,7 +153,19 @@ class reporteController extends Controller
         }
 
         $this->libroMayor = $resultado->toArray(); // Guarda el resultado en una propiedad
-        return $this->libroMayor;
+       
+        $jsonEncode = json_encode($this->libroMayor);
+        $jsonEncodeString = (string) $jsonEncode;
+
+        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
+        $this->guardarReporte(2, $jsonEncodeString, "libro mayor");
+
+        // Recuperar el reporte con id 1
+        $reporte = Reportes::find(2);
+
+        $libroDecode = json_decode($reporte->dato_rep, true);
+
+        return $libroDecode;
     }
     public function balComp()
     {
@@ -517,5 +545,25 @@ class reporteController extends Controller
             }
         }
         return null;
+    }
+
+    public function guardarReporte($id, $datoRep, $descripcion)
+    {
+        // Busca si existe un dato con el id proporcionado
+        $reporte = Reportes::find($id);
+
+        if ($reporte) {
+            // Si existe, actualiza el dato
+            $reporte->dato_rep = $datoRep;
+            $reporte->descripcion = $descripcion;
+            $reporte->save();
+        } else {
+            // Si no existe, crea un nuevo dato
+            $reporte = new Reportes();
+            $reporte->id = $id; // Establece el id proporcionado
+            $reporte->dato_rep = $datoRep;
+            $reporte->descripcion = $descripcion;
+            $reporte->save();
+        }
     }
 }
