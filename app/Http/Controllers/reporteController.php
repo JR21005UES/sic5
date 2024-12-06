@@ -12,61 +12,61 @@ class reporteController extends Controller
 {
       
  
-public function libroDiario()
-{
-    $partidas = Partida::all();
-    $datos = Dato::all()
-        ->where('es_diario', 1);
-    $resultado = collect();
-    $totalDebe = 0;
-    $totalHaber = 0;
+    public function libroDiario()
+    {
+        $partidas = Partida::all();
+        $datos = Dato::all()
+            ->where('es_diario', 1);
+        $resultado = collect();
+        $totalDebe = 0;
+        $totalHaber = 0;
 
-    // Recorre el arreglo cuantas veces tenga partidas
-    foreach ($partidas as $partida) {
-        $movimientos = [];
+        // Recorre el arreglo cuantas veces tenga partidas
+        foreach ($partidas as $partida) {
+            $movimientos = [];
 
-        foreach ($datos as $dato) {
-            if ($dato->id_partida == $partida->id) {
-                $movimientos[] = [
-                    'codigo' => $dato->id_catalogo,
-                    'nombre_cuenta' => $dato->catalogo->nombre,
-                    'debe' => $dato->debe,
-                    'haber' => $dato->haber
-                ];
-                $totalDebe += $dato->debe;
-                $totalHaber += $dato->haber;
+            foreach ($datos as $dato) {
+                if ($dato->id_partida == $partida->id) {
+                    $movimientos[] = [
+                        'codigo' => $dato->id_catalogo,
+                        'nombre_cuenta' => $dato->catalogo->nombre,
+                        'debe' => $dato->debe,
+                        'haber' => $dato->haber
+                    ];
+                    $totalDebe += $dato->debe;
+                    $totalHaber += $dato->haber;
+                }
             }
+
+            $resultado->push([
+                'numero_partida' => $partida->num_de_partida,
+                'movimientos' => $movimientos,
+                'concepto' => $partida->concepto,
+            ]);
         }
-
         $resultado->push([
-            'numero_partida' => $partida->num_de_partida,
-            'movimientos' => $movimientos,
-            'concepto' => $partida->concepto,
+            'numero_partida' => 'Total',
+            'movimientos' => [],
+            'concepto' => "Total Debe $". $totalDebe . "  |||  Total Haber $". $totalHaber,
         ]);
+
+        $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
+
+        // Convertir el libro diario a JSON y luego a string
+        $libroDiarioJson = json_encode($this->libroDiario);
+        $libroDiarioString = (string) $libroDiarioJson;
+
+        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
+        $this->guardarReporte(1, $libroDiarioString, "libro diario");
+
+        // Recuperar el reporte con id 1
+        $reporte = Reportes::find(1);
+
+        $libroDiarioArray = json_decode($reporte->dato_rep, true);
+
+        return $libroDiarioArray;
     }
-    $resultado->push([
-        'numero_partida' => 'Total',
-        'movimientos' => [],
-        'concepto' => "Total Debe $". $totalDebe . "  |||  Total Haber $". $totalHaber,
-    ]);
-
-    $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
-
-    // Convertir el libro diario a JSON y luego a string
-    $libroDiarioJson = json_encode($this->libroDiario);
-    $libroDiarioString = (string) $libroDiarioJson;
-
-    // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
-    $this->guardarReporte(1, $libroDiarioString, "libro diario");
-
-    // Recuperar el reporte con id 1
-    $reporte = Reportes::find(1);
-
-    $libroDiarioArray = json_decode($reporte->dato_rep, true);
-
-    return $libroDiarioArray;
-}
-    public function libMayor()
+public function libMayor()
     {
         $datos = Dato::with(['catalogo', 'partida'])
             ->where('es_diario', 1) // Filtra solo los registros con es_diario == 1
@@ -195,12 +195,7 @@ public function libroDiario()
     }
     public function estadoResul(Request $request)
     {
-        $resultado = $this->calcularEstadoResultado($request->query('inv_final'));
-
-        return $resultado;
-    }
-    public function calcularEstadoResultado($invFinal)
-    {
+        $invFinal = $request->query('inv_final');
         $balComp = $this->balComp();
         //Buscar una cuenta cuyo codigo sea 5101 usando el MODELO
         $resultado = collect();
@@ -307,6 +302,12 @@ public function libroDiario()
             'nombre_cuenta' => "UTILIDAD DEL EJERCICIO",
             'total' => round($utilsEjercicio, 2) ?? 0,         ]);    
         return $resultado;
+
+        return $resultado;
+    }
+    public function calcularEstadoResultado($invFinal)
+    {
+        
 
     }
     public function balanceGen($request)
