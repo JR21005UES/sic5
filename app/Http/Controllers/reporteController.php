@@ -301,9 +301,23 @@ public function libMayor()
         $resultado->push([
             'nombre_cuenta' => "UTILIDAD DEL EJERCICIO",
             'total' => round($utilsEjercicio, 2) ?? 0,         ]);    
-        return $resultado;
+       
 
-        return $resultado;
+        $this->estadoResul = $resultado->toArray(); // Guarda el resultado en una propiedad
+       
+        $jsonEncode = json_encode($this->estadoResul);
+        $jsonEncodeString = (string) $jsonEncode;
+
+        // Guardar el libro diario en la tabla reporte con id 1 y descripcion "libro diario"
+        $this->guardarReporte(4, $jsonEncodeString, "Estado de Resultado");
+
+        // Recuperar el reporte con id 4
+        $reporte = Reportes::find(4);
+
+        $libroDecode = json_decode($reporte->dato_rep, true);
+
+        return $libroDecode;
+    
     }
     public function calcularEstadoResultado($invFinal)
     {
