@@ -15,8 +15,7 @@ class reporteController extends Controller
     public function libroDiario()
     {
         $partidas = Partida::all();
-        $datos = Dato::all()
-            ->where('es_diario', 1);
+        $datos = Dato::all();
         $resultado = collect();
         $totalDebe = 0;
         $totalHaber = 0;
@@ -53,17 +52,12 @@ class reporteController extends Controller
         $this->libroDiario = $resultado->toArray(); // Guarda el resultado en una propiedad
 
         // Convertir el libro diario a JSON y luego a string
-        $libroDiarioJson = json_encode($this->libroDiario);
-        $libroDiarioString = (string) $libroDiarioJson;
+        $jsonEncode = json_encode($this->libroDiario);
+        $jsonEncodeString = (string) $jsonEncode;
 
-        $this->guardarReporte(1, $libroDiarioString, "libro diario");
-
-        // Recuperar el reporte con id 1
-        $reporte = Reportes::find(1);
-
-        $libroDiarioArray = json_decode($reporte->dato_rep, true);
-
-        return $libroDiarioArray;
+        $this->guardarReporte(5, $jsonEncodeString, "Balance General");
+        $libroDiario = $this->libroDiario; // Define the variable before returning it
+        return $libroDiario;
     }
     public function libMayor()
     {
@@ -156,18 +150,20 @@ class reporteController extends Controller
         $jsonEncode = json_encode($this->libroMayor);
         $jsonEncodeString = (string) $jsonEncode;
 
-        $this->guardarReporte(2, $jsonEncodeString, "libro mayor");
+        $this->guardarReporte(2, $jsonEncodeString, "Libro Mayor");
 
-        // Recuperar el reporte con id 1
-        $reporte = Reportes::find(2);
-
-        $libroDecode = json_decode($reporte->dato_rep, true);
-
-        return $libroDecode;
+        $libroMayor = $this->libroMayor; // Define the variable before returning it
+        return $libroMayor;
     }
     public function balComp()
     {
-        $mayor = $this->libMayor();
+        $reporte = Reportes::find(2);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Libro Mayor',404);
+        }
+        $mayor = json_decode($reporte->dato_rep, true);
+        
         $resultado = collect();
         for ($i = 0; $i < count($mayor); $i++) {
             $codigo = $mayor[$i]['codigo'] ?? '';
@@ -189,11 +185,18 @@ class reporteController extends Controller
             ]); 
         }
         $this->balanzaComp = $resultado->toArray(); // Guarda el resultado en una propiedad
+
+        $jsonEncode = json_encode($this->balanzaComp);
+        $jsonEncodeString = (string) $jsonEncode;
+
+        $this->guardarReporte(5, $jsonEncodeString, "Balance General");
+        $balanzaComp = $this->balanzaComp; // Define the variable before returning it
         return $this->balanzaComp;
     }
     public function estadoResul(Request $request)
     {
         $invFinal = $request->query('inv_final');
+        $balComp = $this->libMayor();
         $balComp = $this->balComp();
         //Buscar una cuenta cuyo codigo sea 5101 usando el MODELO
         $resultado = collect();
@@ -319,8 +322,16 @@ class reporteController extends Controller
     public function balanceGen()
     {
         $reporte = Reportes::find(4);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Estado de Resultado',404);
+        }
         $libroDecode = json_decode($reporte->dato_rep, true);
         $reporte = Reportes::find(2);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Libro Mayor',404);
+        }
         $libMayor = json_decode($reporte->dato_rep, true);
         $resultado = collect();
         $i = 0;
@@ -459,9 +470,12 @@ class reporteController extends Controller
         $balanceGene = $this->balanceGene; // Define the variable before returning it
         return $balanceGene;
     }
-    public function cierreEjer()
-    {
+    public function cierreEjer(){
         $reporte = Reportes::find(5);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el balance general',404);
+        }
         $balanGen = json_decode($reporte->dato_rep, true);
         $resultado = collect();
         $datos = collect();
@@ -564,7 +578,6 @@ class reporteController extends Controller
         }
         return null;
     }
-
     public function guardarReporte($id, $datoRep, $descripcion)
     {
         // Busca si existe un dato con el id proporcionado
@@ -583,5 +596,9 @@ class reporteController extends Controller
             $reporte->descripcion = $descripcion;
             $reporte->save();
         }
+    }
+    public function partidasDeAjuste()
+    {
+        
     }
 }
