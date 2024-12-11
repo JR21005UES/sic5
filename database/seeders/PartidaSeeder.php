@@ -83,28 +83,7 @@ class PartidaSeeder extends Seeder
                 'num_de_partida' => 14,
                 'fecha' => '2024-01-14',
                 'concepto' => 'Provisión de cuota patronal'
-            ],
-            [
-                'num_de_partida' => 15,
-                'fecha' => '2024-01-14',
-                'concepto' => 'liquidacion de IVA'
-            ],
-            [
-                'num_de_partida' => 16,
-                'fecha' => '2024-01-14',
-                'concepto' => 'liquidacion de cuenta'
-            ],
-            [
-                'num_de_partida' => 17,
-                'fecha' => '2024-01-14',
-                'concepto' => 'liquidacion por gastos'
-            ],
-            [
-                'num_de_partida' => 18,
-                'fecha' => '2024-01-14',
-                'concepto' => 'liquidacion de rebajas y devoluciones/compras'
-            ],
-            // Agrega más registros aquí según tus necesidades
+            ]
         ]);
     }
 }

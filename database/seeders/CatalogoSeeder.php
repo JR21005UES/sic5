@@ -108,6 +108,7 @@ class CatalogoSeeder extends Seeder
             ['codigo' => 61, 'nombre' => 'CUENTA LIQUIDADORA', 'descripcion' => 'Cuenta que liquida las operaciones del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 6101, 'nombre' => 'PÉRDIDAS Y GANANCIAS', 'descripcion' => 'Cuenta de pérdidas y ganancias para el cierre del ejercicio', 'naturaleza_id' => 3],
             ['codigo' => 6102, 'nombre' => 'RESERVA LEGAL', 'descripcion' => 'Reserva legal del ciclo contable', 'naturaleza_id' => 3], 
+            ['codigo' => 6103, 'nombre' => 'INVENTARIO FINAL', 'descripcion' => 'Inventario final del ciclo contable', 'naturaleza_id' => 1], 
             
         ]);
     }

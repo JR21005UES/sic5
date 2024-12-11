@@ -60,7 +60,8 @@ Route::middleware('auth:sanctum')->group(function(){
     //reportes
     Route::get('/libDiario',[reporteController::class,'libroDiario']);
     Route::get('/libMayor',[reporteController::class,'libMayor']);
+    Route::get('/libMayorPS',[reporteController::class,'libMayorPostCierre']);
     Route::get('/balComp',[reporteController::class,'balComp']);
     Route::get('/estadoResul',[reporteController::class,'estadoResul']);
     Route::get('/balanceGen',[reporteController::class,'balanceGen']);
-    Route::get('/cierre',[reporteController::class,'cierreEjer']);
+    Route::get('/cierre',[reporteController::class,'partidasDeAjuste']);
