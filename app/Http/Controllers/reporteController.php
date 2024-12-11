@@ -55,7 +55,7 @@ class reporteController extends Controller
         $jsonEncode = json_encode($this->libroDiario);
         $jsonEncodeString = (string) $jsonEncode;
 
-        $this->guardarReporte(5, $jsonEncodeString, "Balance General");
+        $this->guardarReporte(1, $jsonEncodeString, "Libro Diario");
         $libroDiario = $this->libroDiario; // Define the variable before returning it
         return $libroDiario;
     }
@@ -189,7 +189,7 @@ class reporteController extends Controller
         $jsonEncode = json_encode($this->balanzaComp);
         $jsonEncodeString = (string) $jsonEncode;
 
-        $this->guardarReporte(5, $jsonEncodeString, "Balance General");
+        $this->guardarReporte(3, $jsonEncodeString, "Balance de Comprobacion");
         $balanzaComp = $this->balanzaComp; // Define the variable before returning it
         return $this->balanzaComp;
     }
@@ -310,13 +310,8 @@ class reporteController extends Controller
         $jsonEncodeString = (string) $jsonEncode;
 
         $this->guardarReporte(4, $jsonEncodeString, "Estado de Resultado");
-
-        // Recuperar el reporte con id 4
-        $reporte = Reportes::find(4);
-
-        $estadoDecode = json_decode($reporte->dato_rep, true);
-
-        return $estadoDecode;
+        $estadoResul = $this->estadoResul; // Define the variable before returning it
+        return $estadoResul;
     
     }
     public function balanceGen()
@@ -461,12 +456,10 @@ class reporteController extends Controller
         ]);
         
         $this->balanceGene = $resultado->toArray(); // Guarda el resultado en una propiedad
-
         $jsonEncode = json_encode($this->balanceGene);
         $jsonEncodeString = (string) $jsonEncode;
 
         $this->guardarReporte(5, $jsonEncodeString, "Balance General");
-
         $balanceGene = $this->balanceGene; // Define the variable before returning it
         return $balanceGene;
     }
