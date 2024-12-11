@@ -65,3 +65,4 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/estadoResul',[reporteController::class,'estadoResul']);
     Route::get('/balanceGen',[reporteController::class,'balanceGen']);
     Route::get('/cierre',[reporteController::class,'partidasDeAjuste']);
+    Route::get('/balanceGenCierre',[reporteController::class,'GeneralPostCierre']);

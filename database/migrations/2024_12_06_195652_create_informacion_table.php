@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reporte', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->longText('dato_rep')->nullable();
-            //Creame un campo que se llame "descripcion"
-            $table->string('descripcion')->nullable();
-        });
+        if (!Schema::hasTable('reporte')) {
+            Schema::create('reporte', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->longText('dato_rep')->nullable();
+                $table->string('descripcion')->nullable();
+            });
+        }
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('informacion');
+        Schema::dropIfExists('reporte');
     }
 };

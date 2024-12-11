@@ -30,7 +30,7 @@ class DatoSeeder extends Seeder
                 'es_diario'=>1,//agregado campo para comprobar si es de diario
             ],
             [
-                'id_catalogo' => 31,
+                'id_catalogo' => 3101,
                 'id_partida' => 1,
                 'debe' => 0,
                 'haber' => 210000,

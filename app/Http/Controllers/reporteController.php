@@ -334,124 +334,88 @@ class reporteController extends Controller
         if($libMayor == null || $libroDecode == null){	
             return null;
         }
-        $aux1 = $libMayor[5];
-        $i++;    
+        $aux1 = $libMayor[5];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total_deudor"],
         ]);
-        $aux2 = $libroDecode[10];
-        $i++;    
+        $aux2 = $libroDecode[10];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux2["nombre_cuenta"],
             'total' => $aux2["total"],
         ]);
-        $aux3 = $libMayor[6];
-        $i++;    
+        $aux3 = $libMayor[4];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux3["nombre_cuenta"],
             'total' => $aux3["total_deudor"],
         ]);
-        $aux4 = $libMayor[8];
-        $i++;    
+        $aux4 = $libMayor[7];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux4["nombre_cuenta"],
             'total' => $aux4["total_deudor"],
         ]);
-        $totalActivoCorriente = $aux1["total_deudor"] + $aux2["total"] + $aux3["total_deudor"] + $aux4["total_deudor"];
-        $i++;    
+        $totalActivoCorriente = $aux1["total_deudor"] + $aux2["total"] + $aux3["total_deudor"] + $aux4["total_deudor"];   
+        $aux1 = $libMayor[8];   
         $resultado->push([
-            'num' => $i,
-            'nombre_cuenta' => "ACTIVO CORRIENTE",
-            'total' => $totalActivoCorriente,
-        ]);
-        $aux1 = $libMayor[9];
-        $i++;    
-        $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total_deudor"],
         ]);
-        $totalActivoNoCorriente = $aux1["total_deudor"];
-        $i++;    
+        $totalActivoNoCorriente = $aux1["total_deudor"] ;   
+        $aux1 = $libMayor[9];   
         $resultado->push([
-            'num' => $i,
-            'nombre_cuenta' => "ACTIVO NO CORRIENTE",
-            'total' => $totalActivoNoCorriente,
-        ]);
-        $aux1 = $libMayor[11];
-        $i++;    
-        $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total_acreedor"],
         ]);
-        $aux2 = $libMayor[10];
-        $i++;    
+        $aux2 = $libMayor[10];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux2["nombre_cuenta"],
             'total' => $aux2["total_acreedor"],
         ]);
         $aux3 = $libroDecode[19];
-        $i++;    
+           
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux3["nombre_cuenta"],
             'total' => round($aux3["total"],2),
         ]);
-        $totalPasivoCorriente = $aux1["total_acreedor"] + $aux2["total_acreedor"] + $aux3["total"];
-        $i++;    
+        $totalPasivoCorriente = $aux1["total_acreedor"] + $aux2["total_acreedor"] + $aux3["total"];   
+        $aux1 = $libMayor[11];   
         $resultado->push([
-            'num' => $i,
-            'nombre_cuenta' => "PASIVO CORRIENTE",
-            'total' => $totalPasivoCorriente,
-        ]);
-        $aux1 = $libMayor[0];
-        $i++;    
-        $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total_acreedor"],
         ]);
-        $aux2 = $libroDecode[17];
-        $i++;    
+        $aux2 = $libroDecode[17];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux2["nombre_cuenta"],
             'total' => $aux2["total"],
         ]);
-        $aux3 = $libroDecode[20];
-        $i++;    
+        $aux3 = $libroDecode[20];   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => $aux3["nombre_cuenta"],
             'total' => $aux3["total"],
         ]);
-        $totalPasivoNoCorriente = $aux1["total_acreedor"] + $aux2["total"] + $aux3["total"];
-        $i++;    
-        $resultado->push([
-            'num' => $i,
-            'nombre_cuenta' => "CAPITAL CONTABLE",
-            'total' => $totalPasivoNoCorriente,
-        ]);
+        $totalPasivoNoCorriente = $aux1["total_acreedor"] + $aux2["total"] + $aux3["total"];   
         $totalActivo = $totalActivoCorriente + $totalActivoNoCorriente;
-        $totalActivo = round($totalActivo,2);
-        $i++;    
+        $totalActivo = round($totalActivo,2);   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => "TOTAL ACTIVO",
             'total' => $totalActivo,
         ]);
         $totalPasivo = $totalPasivoCorriente + $totalPasivoNoCorriente;
-        $totalPasivo = round($totalPasivo,2);
-        $i++;    
+        $totalPasivo = round($totalPasivo,2);   
         $resultado->push([
-            'num' => $i,
+            'numero' => $i++, //BORAAAAAAAA
             'nombre_cuenta' => "TOTAL PASIVO",
             'total' => $totalPasivo,
         ]);
@@ -642,7 +606,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux2 = $this->buscarCuenta(1112, $libroMayor);
         $datoRequest = new Request([
             'id_catalogo' => 1112,
@@ -651,7 +615,7 @@ class reporteController extends Controller
             'haber' => $aux2['total'],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux3 = $aux1['total'] - $aux2['total'];
         $datoRequest = new Request([
             'id_catalogo' => 2104,
@@ -660,7 +624,7 @@ class reporteController extends Controller
             'haber' => $aux3,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
     
         //Partida de ajuste 2
         // Crear una nueva partida
@@ -681,7 +645,7 @@ class reporteController extends Controller
             'haber' => $aux1['total'],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 5101,
             'id_partida' => $idPartida,
@@ -689,7 +653,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         
         //Partida de ajuste 3
         // Crear una nueva partida
@@ -710,7 +674,7 @@ class reporteController extends Controller
             'haber' => $aux1['total'],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 44,
             'id_partida' => $idPartida,
@@ -718,7 +682,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         
         //Partida de ajuste 4
         // Crear una nueva partida
@@ -739,7 +703,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 44,
             'id_partida' => $idPartida,
@@ -747,7 +711,7 @@ class reporteController extends Controller
             'haber' => $aux1['total'],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         
         //Partida de ajuste 5
         // Crear una nueva partida
@@ -768,7 +732,7 @@ class reporteController extends Controller
             'haber' => $aux1['total'],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 44,
             'id_partida' => $idPartida,
@@ -776,7 +740,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);    
+        $datoController->storeCierre($datoRequest);    
 
         //Partida de ajuste 6
         // Crear una nueva partida
@@ -797,7 +761,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 44,
             'id_partida' => $idPartida,
@@ -805,7 +769,7 @@ class reporteController extends Controller
             'haber' => $aux1["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);     
+        $datoController->storeCierre($datoRequest);     
 
         //Partida de ajuste 7
         // Crear una nueva partida
@@ -826,7 +790,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 44,
             'id_partida' => $idPartida,
@@ -834,7 +798,7 @@ class reporteController extends Controller
             'haber' => $aux1["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);      
+        $datoController->storeCierre($datoRequest);      
 
         //Partida de ajuste 8
         // Crear una nueva partida
@@ -855,7 +819,7 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux2 = $estadoResul[17];
         $datoRequest = new Request([
             'id_catalogo' => 6102,
@@ -864,7 +828,7 @@ class reporteController extends Controller
             'haber' => $aux2["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux3 = $estadoResul[19];
         $datoRequest = new Request([
             'id_catalogo' => 2104,
@@ -873,7 +837,7 @@ class reporteController extends Controller
             'haber' => $aux3["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 6101,
             'id_partida' => $idPartida,
@@ -881,7 +845,7 @@ class reporteController extends Controller
             'haber' => $aux1["total"] - $aux2["total"] - $aux3["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);       
+        $datoController->storeCierre($datoRequest);       
 
         //Partida de ajuste 9
         // Crear una nueva partida
@@ -902,7 +866,7 @@ class reporteController extends Controller
             'haber' => $aux1["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux2 = $estadoResul[13];
         $datoRequest = new Request([
             'id_catalogo' => 4202,
@@ -911,7 +875,7 @@ class reporteController extends Controller
             'haber' => $aux2["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $aux3 = $aux1["total"] + $aux2["total"];  
         $datoRequest = new Request([
             'id_catalogo' => 6101,
@@ -920,14 +884,14 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);      
+        $datoController->storeCierre($datoRequest);      
 
         //Partida de ajuste 10
         // Crear una nueva partida
         $partidaRequest = new Request([
             'num_de_partida' => Partida::max('num_de_partida') + 1, // Incrementar el número de partida
             'fecha' => '2021-12-31',
-            'concepto' => 'V/Liquidacion de Gastos de operacion y otros productos',
+            'concepto' => 'V/Liquidacion perdidas y ganancias y aumentando la utilidad del ejercicio',
         ]);
         $partidaController->store($partidaRequest);
 
@@ -941,7 +905,7 @@ class reporteController extends Controller
             'haber' => $aux1["total"],
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
+        $datoController->storeCierre($datoRequest);
         $datoRequest = new Request([
             'id_catalogo' => 6101,
             'id_partida' => $idPartida,
@@ -949,106 +913,324 @@ class reporteController extends Controller
             'haber' => 0,
             'es_diario' => 0,
         ]);
-        $datoController->store($datoRequest);
-        $this->libMayorPostCierre();
+        $datoController->storeCierre($datoRequest);
+
+        //Partida de CIERRE 11
+        $resultado = collect(); //Coleccion para la partida
+        $movimientos = []; //Coleccion para los datos de la partida
+        // Crear una nueva partida
+        $totalDebeCierre = 0;
+        $totalHaberCierre = 0;
+        $partidaRequest = new Request([
+            'num_de_partida' => Partida::max('num_de_partida') + 1, // Incrementar el número de partida
+            'fecha' => '2021-12-31',
+            'concepto' => 'V/PARTIDA DE CIERRE',
+        ]);
+        $i =0; //BORAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
+        $partidaController->store($partidaRequest);
+        $idPartida = Partida::latest('id')->first()->id;
+        $aux1 = $balanceGeneral[8]; //IVA DEBITO FISCAL  
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 2109,
+            'id_partida' => $idPartida,
+            'debe' => $aux1["total"], 
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[7]; //CUENTAS Y DOCUMENTOS POR PAGAR
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 2104,
+            'id_partida' => $idPartida,
+            'debe' => $aux1["total"], 
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[9]; //IMPUESTO POR PAGAR
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 2111,
+            'id_partida' => $idPartida,
+            'debe' => $aux1["total"], 
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[11]; //CAPITAL SOCIAL
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 3101,
+            'id_partida' => $idPartida,
+            'debe' => $aux1["total"], 
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[12]; //RESERVA LEGAL
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 3103,
+            'id_partida' => $idPartida,
+            'debe' => round($aux1["total"], 2),
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[13];//UTILIDAD DEL EJERCICIO
+        $totalDebeCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 3106,
+            'id_partida' => $idPartida,
+            'debe' => $aux1["total"], 
+            'haber' => 0,
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[0]; //EFEFCTIVO Y EQUIVALENTE DE EFECTIVO
+        $totalHaberCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 1101,
+            'id_partida' => $idPartida,
+            'debe' => 0, 
+            'haber' => $aux1["total"],
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[1]; //iNVENTARIO
+        $totalHaberCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 1109,
+            'id_partida' => $idPartida,
+            'debe' => 0, 
+            'haber' => $aux1["total"],
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[2]; //CUENTAS POR COBRAR
+        $totalHaberCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 1103,
+            'id_partida' => $idPartida,
+            'debe' => 0, 
+            'haber' => $aux1["total"],
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[3];//IVA CREDITO FISCAL
+        $totalHaberCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 1112,
+            'id_partida' => $idPartida,
+            'debe' => 0, 
+            'haber' => $aux1["total"],
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $aux1 = $balanceGeneral[5]; //PROPIEDAD, PLANTA Y EQUIPO
+        $totalHaberCierre += $aux1["total"];
+        $datoRequest = new Request([
+            'id_catalogo' => 1201,
+            'id_partida' => $idPartida,
+            'debe' => 0, 
+            'haber' => $aux1["total"],
+            'es_diario' => 0,
+        ]);
+        $datoController->storeCierre($datoRequest);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => $aux1['nombre_cuenta'],
+            'total' => $aux1["total"],
+        ]);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => "TOTAL ACTIVO",
+            'total' => round($totalDebeCierre, 2)
+        ]);
+        $resultado->push([
+            'numero' => $i++, //BORAAAAAAAA
+            'nombre_cuenta' => "TOTAL PASIVO",
+            'total' => round($totalHaberCierre, 2)
+        ]);
         
-        return response()->json(['message' => 'Partida de ajuste creada con exito'], 201);
+        $CierreDelEjercicio = $resultado->toArray(); // Guarda el resultado en una propiedad
+
+        $this->CierreDelEjercicio = $resultado->toArray(); // Guarda el resultado en una propiedad
+        $jsonEncode = json_encode($this->CierreDelEjercicio);
+        $jsonEncodeString = (string) $jsonEncode;
+        $this->guardarReporte(6, $jsonEncodeString, "Cierre del ejercicio contable"); // Guarda el resultado en la base de datos
+        $CierreDelEjercicio = $this->CierreDelEjercicio; // Define the variable before returning it
+        
+        return $CierreDelEjercicio;
     }
 
-    public function libMayorPostCierre()
+    public function GeneralPostCierre()
     {
-        $datos = Dato::with(['catalogo', 'partida'])
-            ->orderBy('id_catalogo') // Ordena por el código de la cuenta
-            ->orderBy('id_partida') // Ordena por id_partida
-            ->get();
-
+        $reporte = Reportes::find(5);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Estado de Resultado',404);
+        }
+        $balanceGeneralDecode = json_decode($reporte->dato_rep, true);
+        $reporte = Reportes::find(6);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Libro Mayor',404);
+        }
+        $partidaDeCierre = json_decode($reporte->dato_rep, true);
         $resultado = collect();
-        $codigoActual = null;
-        $total=0;
-        $totalDebe = 0;
-        $totalHaber = 0;
-        $totalDeudor = 0;
-        $totalAcreedor = 0;
-        $movimientos = [];
+        
+        $aux1 = $balanceGeneralDecode[0]; //Cuentas y documentos por pagar
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[6]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-        foreach ($datos as $dato) {
-            // Si cambiamos de cuenta, añadimos el total y reiniciamos los acumuladores
-            if ($codigoActual !== $dato->id_catalogo) {
-                if ($codigoActual !== null) {
-                    // Añadimos el total y los movimientos al final del grupo actual
-                    $total=0;
-                    $resultado->push([
-                        'codigo' => $codigoActual,
-                        'nombre_cuenta' => $nombreCuentaActual,
-                        'movimientos' => $movimientos,
-                        'debe' => round($totalDebe, 2),
-                        'haber' => round($totalHaber, 2),
-                        'total_deudor' => round($totalDeudor, 2),
-                        'total_acreedor' => round($totalAcreedor, 2),
-                    ]);
-                }
+        $aux1 = $balanceGeneralDecode[1]; //Inventario Final
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[7]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-                // Reinicia los valores para la nueva cuenta
-                $codigoActual = $dato->id_catalogo;
-                $nombreCuentaActual = $dato->catalogo->nombre;
-                $naturaleza = $dato->catalogo->naturaleza_id;
-                $totalDebe = 0;
-                $totalHaber = 0;
-                $movimientos = [];
-            }
+        $aux1 = $balanceGeneralDecode[2]; //EFECTIVO Y EQUIVALENTES DE EFECTIVO
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[8]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-            // Añadimos el movimiento al array de movimientos
-            $movimiento = [
-                'numero_partida' => $dato->partida->num_de_partida,
-                'debe' => $dato->debe,
-                'haber' => $dato->haber,
-                'concepto' => $dato->partida->concepto,
-            ];
-            
-            if ($naturaleza == 1) {
-                $total = $total + $dato->debe - $dato->haber;
-                $movimiento['total'] = $total;
-            }
-            
-            if ($naturaleza == 3) {
-                $total = $total + $dato->haber - $dato->debe;
-                $movimiento['total'] = $total;
-            }
-            
-            $movimientos[] = $movimiento;
+        $aux1 = $balanceGeneralDecode[3]; //IVA CREDITO FISCAL
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[9]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-            // Acumulamos los valores de debe y haber
-            $totalDebe += $dato->debe;
-            $totalHaber += $dato->haber;
+        $aux1 = $balanceGeneralDecode[4]; //PROPIEDAD, PLANTA Y EQUIPO
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[10]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-            // Calcula el total deudor y acreedor
-            $totalDeudor = ($naturaleza == 1 || $naturaleza == 2) ? $totalDebe - $totalHaber : null;
-            $totalAcreedor = ($naturaleza == 3) ? $totalHaber - $totalDebe : null;
-        }
+        $aux1 = $balanceGeneralDecode[5]; //DOCUMENTOS POR PAGAR
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[1]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-        // Añadir el último total y movimientos al final del último grupo
-        if ($codigoActual !== null) {
-            $total=0;
-            $resultado->push([
-                'codigo' => $codigoActual,
-                'nombre_cuenta' => $nombreCuentaActual,
-                'movimientos' => $movimientos,
-                'debe' => round($totalDebe, 2),
-                'haber' => round($totalHaber, 2),
-                'total_deudor' => round($totalDeudor, 2),
-                'total_acreedor' => round($totalAcreedor, 2),
-            ]);
-        }
+        $aux1 = $balanceGeneralDecode[6]; //IVA DEBITO FISCAL
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[0]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
 
-        $this->libroMayor = $resultado->toArray(); // Guarda el resultado en una propiedad
-       
-        $jsonEncode = json_encode($this->libroMayor);
+        $aux1 = $balanceGeneralDecode[7]; //IMPUESTO SOBRE LA RENTA
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[2]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+
+        $aux1 = $balanceGeneralDecode[8]; //CAPITAL SOCIAL
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[3]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+
+        $aux1 = $balanceGeneralDecode[9]; //RESERVA LEGAL
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[4]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+
+        $aux1 = $balanceGeneralDecode[10]; //UTILIDAD DEL EJERCICIO
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[5]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+
+        $aux1 = $balanceGeneralDecode[11]; //TOTAL ACTIVO
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[11]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+
+        $aux1 = $balanceGeneralDecode[12]; //TOTAL PASIVO
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[12]["total"];
+        $resultado->push([
+            'nombre_cuenta' => $aux1["nombre_cuenta"],
+            'total' => $aux1["total"],
+        ]);
+        
+        
+        $this->balanceGene = $resultado->toArray(); // Guarda el resultado en una propiedad
+        $jsonEncode = json_encode($this->balanceGene);
         $jsonEncodeString = (string) $jsonEncode;
+        $this->guardarReporte(7, $jsonEncodeString, "Balance General Post Cierre");
+        $balanceGene = $this->balanceGene; // Define the variable before returning it
 
-        $this->guardarReporte(6, $jsonEncodeString, "Libro Mayor Post Cierre");
-
-        $libroMayor = $this->libroMayor; // Define the variable before returning it
-        return $libroMayor;
+        return $balanceGene;
     }
     
 }
