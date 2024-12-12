@@ -22,9 +22,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/logout', [AuthController::class, 'logout']);    
     //Catalogo
     //Mostrar todos los registros
+   
+});
     Route::get('/catalogo', [CatalogoController::class, 'index']); 
     Route::get('/partida',[partidaController::class,'index']);
-});
 
     Route::post('/catalogo', [CatalogoController::class, 'store']);
     //Mostrar un registro específico

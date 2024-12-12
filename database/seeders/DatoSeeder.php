@@ -332,28 +332,7 @@ class DatoSeeder extends Seeder
                 'es_diario'=>1,//agregado campo para comprobar si es de diario
             ],
 
-            // Partida 14
-            [
-                'id_catalogo' => 4202,
-                'id_partida' => 14,
-                'debe' => 533.75,
-                'haber' => 0,
-                'es_diario'=>1,//agregado campo para comprobar si es de diario
-            ],
-            [
-                'id_catalogo' => 4201,
-                'id_partida' => 14,
-                'debe' => 76.25,
-                'haber' => 0,
-                'es_diario'=>1,//agregado campo para comprobar si es de diario
-            ],
-            [
-                'id_catalogo' => 2104,
-                'id_partida' => 14,
-                'debe' => 0,
-                'haber' => 610,
-                'es_diario'=>1,//agregado campo para comprobar si es de diario
-            ],           
+                    
         ]);
     }
 }

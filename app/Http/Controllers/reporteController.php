@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//Agrega el controldaor de catalogo
 use App\Http\Controllers\datoController;
 use App\Http\Controllers\partidaController;
 use App\Models\Dato;
@@ -28,6 +27,8 @@ class reporteController extends Controller
             foreach ($datos as $dato) {
                 if ($dato->id_partida == $partida->id) {
                     $movimientos[] = [
+                        'id' => $dato->id,
+                        'es_diario' => $dato->es_diario,
                         'codigo' => $dato->id_catalogo,
                         'nombre_cuenta' => $dato->catalogo->nombre,
                         'debe' => $dato->debe,
@@ -428,7 +429,8 @@ class reporteController extends Controller
         $balanceGene = $this->balanceGene; // Define the variable before returning it
         return $balanceGene;
     }
-    public function cierreEjer(){
+    public function cierreEjer()
+    {
         $reporte = Reportes::find(5);
         if ($reporte == null) {
             //si no existe el reporte retorna un mensaje y un error 404
@@ -929,7 +931,7 @@ class reporteController extends Controller
         $i =0; //BORAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR
         $partidaController->store($partidaRequest);
         $idPartida = Partida::latest('id')->first()->id;
-        $aux1 = $balanceGeneral[8]; //IVA DEBITO FISCAL  
+        $aux1 = $balanceGeneral[6]; //IVA DEBITO FISCAL  
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 2109,
@@ -944,7 +946,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[7]; //CUENTAS Y DOCUMENTOS POR PAGAR
+        $aux1 = $balanceGeneral[5]; //CUENTAS Y DOCUMENTOS POR PAGAR
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 2104,
@@ -959,7 +961,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[9]; //IMPUESTO POR PAGAR
+        $aux1 = $balanceGeneral[7]; //IMPUESTO POR PAGAR
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 2111,
@@ -974,7 +976,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[11]; //CAPITAL SOCIAL
+        $aux1 = $balanceGeneral[8]; //CAPITAL SOCIAL
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 3101,
@@ -989,7 +991,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[12]; //RESERVA LEGAL
+        $aux1 = $balanceGeneral[9]; //RESERVA LEGAL
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 3103,
@@ -1004,7 +1006,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[13];//UTILIDAD DEL EJERCICIO
+        $aux1 = $balanceGeneral[10];//UTILIDAD DEL EJERCICIO
         $totalDebeCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 3106,
@@ -1019,7 +1021,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[0]; //EFEFCTIVO Y EQUIVALENTE DE EFECTIVO
+        $aux1 = $balanceGeneral[2]; //EFEFCTIVO Y EQUIVALENTE DE EFECTIVO
         $totalHaberCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 1101,
@@ -1049,7 +1051,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[2]; //CUENTAS POR COBRAR
+        $aux1 = $balanceGeneral[0]; //CUENTAS POR COBRAR
         $totalHaberCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 1103,
@@ -1079,7 +1081,7 @@ class reporteController extends Controller
             'nombre_cuenta' => $aux1['nombre_cuenta'],
             'total' => $aux1["total"],
         ]);
-        $aux1 = $balanceGeneral[5]; //PROPIEDAD, PLANTA Y EQUIPO
+        $aux1 = $balanceGeneral[4]; //PROPIEDAD, PLANTA Y EQUIPO
         $totalHaberCierre += $aux1["total"];
         $datoRequest = new Request([
             'id_catalogo' => 1201,
@@ -1115,7 +1117,6 @@ class reporteController extends Controller
         
         return $CierreDelEjercicio;
     }
-
     public function GeneralPostCierre()
     {
         $reporte = Reportes::find(5);
@@ -1231,6 +1232,5 @@ class reporteController extends Controller
         $balanceGene = $this->balanceGene; // Define the variable before returning it
 
         return $balanceGene;
-    }
-    
-}
+    }  
+}   

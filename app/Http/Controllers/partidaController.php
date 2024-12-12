@@ -10,11 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class partidaController extends Controller
 {
-    public function index(){
-        $partidas = Partida::all();
-         return  response()->json($partidas,200);
+    public function index()
+    {
+        $partidas = Partida::all(); // Obtenemos todas las partidas
 
+        // Asegurarnos de que devolvemos el atributo num_de_partida correctamente
+        return response()->json($partidas, 200);
     }
+
     //create
     public function store(Request $request){
         // Validar la solicitud
@@ -40,63 +43,46 @@ class partidaController extends Controller
         ]);
 
         //Retornamos
-        $data=[
-            'message'=>'Se creo el registro con exito',
-            'partida'=>$partida
-        ];
-        return response()->json($data,201);
+        return response()->json('Partida creada', 201);
 
     }
     //Metodo para editar 
-    public function update(Request $request, $id ){
-        //buscar un registro por su id 
+    public function update(Request $request, $id)
+    {
+        // Buscar un registro por su id 
         $partida = Partida::find($id);
-        //validar si fue encontrado 
-        if(!$partida){
-            $data=[
+
+        // Validar si fue encontrado 
+        if (!$partida) {
+            $data = [
                 'message' => 'Registro no encontrado',
                 'status' => 404
             ];
             return response()->json($data, $data['status']);
         }
-        //validar datos enviado
-        $validator =Validator::make($request->all(),[
-            'fecha'=>'required|date',
-            'concepto'=>'required|string'
+
+        // Validar datos enviados
+        $validator = Validator::make($request->all(), [
+            'concepto' => 'required|string'
         ]);
-        //Retornar si hay error
-        if($validator->fails()){
-            $data=[
-                'message'=>'Error en la validacion de los datos',
-                'errors'=>$validator->errors()
-            ];
-            return response()->json($data,400);
+
+        // Retornar si hay error
+        if ($validator->fails()) {
+            return response()->json('Error en la validación de los datos', 400);
         }
-        //actualizar datos
-        $partida->fecha = $request['fecha'];
+
+        // Actualizar datos
         $partida->concepto = $request['concepto'];
-       
 
-        if(!$partida->save()){
-            $data = [
-                'message' => 'Error al actualizar el registro',
-                'status' => 500
-            ];
-            return response()->json($data, $data['status']);
+        if (!$partida->save()) {
+            return response()->json('Error al actualizar el registro', 500);
         }
-         $data = [
-            'message' => 'Modificacion con exito',
-            'partida' => $partida,
-            'status' => 201
-         ];
-         return response()->json($data, $data['status']);
-        
-        //enviar informe
 
+        return response()->json('Modificacion exitosa', 200);
     }
-
     //metodo para eliminar
-    public function destroy($id){
+    public function destroy($id)
+    {
         //buscar el registro por su id
         $partida = Partida::find($id);
 
@@ -122,9 +108,9 @@ class partidaController extends Controller
         ];
         return response()->json($data, $data['status']);
     }
-
     //metodo para obtener un registro por su id
-    public function show($id){
+    public function show($id)
+    {
         //buscar un registro por id
         $partida = Partida::find($id);
 
@@ -138,5 +124,4 @@ class partidaController extends Controller
 
         return response()->json($partida, 200);
     }
-
 }

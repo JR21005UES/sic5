@@ -43,7 +43,19 @@ class datoController extends Controller
         // Verifica si es el primer dato ingresado para la cuenta
         $primerDato = Dato::where('id_catalogo', $request->id_catalogo)->exists();
 
-        
+        if (!$primerDato) {
+            // Obtén la naturaleza de la cuenta
+            $naturaleza = Catalogo::where('codigo', $request->id_catalogo)->value('naturaleza_id');
+
+            // Valida según la naturaleza de la cuenta
+            if (($naturaleza == 1 || $naturaleza == 2) && $request->haber > 0) {
+                return response()->json('El primer dato ingresado para una cuenta con naturaleza deudora debe ser un debe, no puede ser un haber.', 400);
+            }
+
+            if ($naturaleza == 3 && $request->debe > 0) {
+                return response()->json('El primer dato ingresado para una cuenta con naturaleza Acreedora debe ser un haber, no puede ser un debe.', 400);
+            }
+        }
 
         // Creando un nuevo registro en la tabla dato
         $dato = Dato::create([
@@ -54,11 +66,8 @@ class datoController extends Controller
             'es_diario' => $request['es_diario']
         ]);
 
-        $data = [
-            'dato' => $dato,
-            'status' => 201
-        ];
-        return response()->json($data, $data['status']);
+        return response()->json('Dato creado exitosamente', 201);
+
     }
 
     public function storeCierre(Request $request)
