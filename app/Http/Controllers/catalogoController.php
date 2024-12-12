@@ -80,46 +80,33 @@ class CatalogoController extends Controller
     }
     
     public function store(Request $request)
-    {
-        // Validar la solicitud
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'codigo' => 'required|numeric|unique:catalogo,codigo',
-            'naturaleza_id' => 'required|exists:naturaleza,id'
-        ]);
+{
+    // Validar la solicitud
+    $validator = Validator::make($request->all(), [
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'codigo' => 'required|numeric|unique:catalogo,codigo',
+        'naturaleza_id' => 'required|exists:naturaleza,id'
+    ]);
 
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validación de los datos',
-                'errors' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($data, $data['status']);
-        }
-        // Crear un nuevo registro en la tabla catalogo
-        $catalogo = Catalogo::create([
-            'nombre' => $request['nombre'],
-            'descripcion' => $request['descripcion'],
-            'codigo' => $request['codigo'],
-            'naturaleza_id' => $request['naturaleza_id']
-        ]);
-
-        if (!$catalogo) {
-            $data = [
-                'message' => 'Error al crear el registro',
-                'status' => 500
-            ];
-            return response()->json($data, $data['status']);
-        }
-
-        $data = [
-            'catalogo' => $catalogo,
-            'status' => 201
-        ];
-
-        return response()->json('Cuenta creada', 201);
+    if ($validator->fails()) {
+        // Obtener los mensajes de error y concatenarlos en un solo string
+        $errores = $validator->errors()->all(); // Obtiene todos los mensajes de error
+        $mensaje = implode(' ', $errores); // Combina los mensajes en un solo string
+        return response()->json($mensaje, 400); // Retorna el mensaje concatenado
     }
+
+    // Crear un nuevo registro en la tabla catalogo
+    $catalogo = Catalogo::create([
+        'nombre' => $request['nombre'],
+        'descripcion' => $request['descripcion'],
+        'codigo' => $request['codigo'],
+        'naturaleza_id' => $request['naturaleza_id']
+    ]);
+
+    return response()->json('Cuenta creada exitosamente', 201);
+}
+
 
     public function show($codigo)
     {

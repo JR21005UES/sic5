@@ -159,6 +159,7 @@ class reporteController extends Controller
     }
     public function balComp()
     {
+        $ad = $this->libMayor();
         $reporte = Reportes::find(2);
         if ($reporte == null) {
             //si no existe el reporte retorna un mensaje y un error 404
@@ -318,6 +319,7 @@ class reporteController extends Controller
     }
     public function balanceGen()
     {
+        $balComp = $this->libMayor();
         $reporte = Reportes::find(4);
         if ($reporte == null) {
             //si no existe el reporte retorna un mensaje y un error 404
@@ -1122,19 +1124,19 @@ class reporteController extends Controller
         $reporte = Reportes::find(5);
         if ($reporte == null) {
             //si no existe el reporte retorna un mensaje y un error 404
-            return response()->json('No se ha generado el Estado de Resultado',404);
+            return response()->json('No se ha generado el Balance General',404);
         }
         $balanceGeneralDecode = json_decode($reporte->dato_rep, true);
         $reporte = Reportes::find(6);
         if ($reporte == null) {
             //si no existe el reporte retorna un mensaje y un error 404
-            return response()->json('No se ha generado el Libro Mayor',404);
+            return response()->json('No se ha generado el Cierre del Ejercicio Contable',404);
         }
         $partidaDeCierre = json_decode($reporte->dato_rep, true);
         $resultado = collect();
         
-        $aux1 = $balanceGeneralDecode[0]; //Cuentas y documentos por pagar
-        $aux1["total"] = $aux1["total"] - $partidaDeCierre[6]["total"];
+        $aux1 = $balanceGeneralDecode[0]; //Cuentas y documentos por Cobrar
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[8]["total"];
         $resultado->push([
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total"],
@@ -1148,7 +1150,7 @@ class reporteController extends Controller
         ]);
 
         $aux1 = $balanceGeneralDecode[2]; //EFECTIVO Y EQUIVALENTES DE EFECTIVO
-        $aux1["total"] = $aux1["total"] - $partidaDeCierre[8]["total"];
+        $aux1["total"] = $aux1["total"] - $partidaDeCierre[6]["total"];
         $resultado->push([
             'nombre_cuenta' => $aux1["nombre_cuenta"],
             'total' => $aux1["total"],
@@ -1233,4 +1235,14 @@ class reporteController extends Controller
 
         return $balanceGene;
     }  
+    public function estadoResulCierre()
+    {
+        $reporte = Reportes::find(4);
+        if ($reporte == null) {
+            //si no existe el reporte retorna un mensaje y un error 404
+            return response()->json('No se ha generado el Estado de Resultado',404);
+        }
+        $estadoResul = json_decode($reporte->dato_rep, true);
+        return $estadoResul;
+    }
 }   

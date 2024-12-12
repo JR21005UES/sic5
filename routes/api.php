@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/libMayorPS',[reporteController::class,'libMayorPostCierre']);
     Route::get('/balComp',[reporteController::class,'balComp']);
     Route::get('/estadoResul',[reporteController::class,'estadoResul']);
+    Route::get('/estadoResulCierre',[reporteController::class,'estadoResulCierre']);
     Route::get('/balanceGen',[reporteController::class,'balanceGen']);
     Route::get('/cierre',[reporteController::class,'partidasDeAjuste']);
     Route::get('/balanceGenCierre',[reporteController::class,'GeneralPostCierre']);

@@ -78,6 +78,11 @@ class PartidaSeeder extends Seeder
                 'num_de_partida' => 13,
                 'fecha' => '2024-01-13',
                 'concepto' => 'Pago de salario al contador'
+            ],
+            [
+                'num_de_partida' => 14,
+                'fecha' => '2024-01-13',
+                'concepto' => 'V/provisiòn de cuota patronal'
             ]
         ]);
     }
